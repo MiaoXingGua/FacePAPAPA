@@ -46,6 +46,7 @@ AV.Cloud.define('register', function(request, response) {
             user.signUp(null, {
                 success: function(user) {
                     success = true;
+                    response.success(user);
                 },
                 error: function(user, error) {
                     success = false;
