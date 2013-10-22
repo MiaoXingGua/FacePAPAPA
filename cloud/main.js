@@ -53,9 +53,9 @@ AV.Cloud.define('register', function(request, response) {
                 }
             });
         }
-    }while(success || --count<=0)
+    }while(success || --count<=0);
 
-    response.success(username);
+//    response.success(username);
 
     if (success)
     {
