@@ -32,9 +32,9 @@ AV.Cloud.define('register', function(request, response) {
     var password;
     var email;
     do{
-        username = newGuid();
+        username = "123456";
         password = "qweqwe123";
-        email = newGuid() + "@qq.com";
+        email = username + "@qq.com";
 
         if (username && password && email)
         {
@@ -58,7 +58,7 @@ AV.Cloud.define('register', function(request, response) {
     if (success)
     {
 //        response.write('success ' + username);
-        response.success('success ' + username);
+        response.success(username);
     }
     else
     {
