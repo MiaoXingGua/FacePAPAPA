@@ -17,31 +17,31 @@ AV.Cloud.define('register', function(request, response) {
     {
 
         var file = new AV.File("headView.png", { base64: base64 });
-        file.save().then(function(file) {
-        
-            // 创建该类的一个实例
-            var userInfo = new UserInfo();
-            userInfo.set("headView", file);
-            return userInfo.save();
-
-            }).then(function(userInfo) {
-
-                var user = new AV.User();
-                user.set("username", username);
-                user.set("password", password);
-                user.set("email", email);
-                return user.signUp();
-
-            }).then(function(user) {
-
-                // Everything is done!
-                response.success(user,user.get(location));
-
-            }, function(error) {
-                // This isn't called because the error was already handled.
-                alert("Error: " + error.code + " " + error.message);
-                response.error(error);
-            });
+//        file.save().then(function(file) {
+//
+//            // 创建该类的一个实例
+//            var userInfo = new UserInfo();
+//            userInfo.set("headView", file);
+//            return userInfo.save();
+//
+//            }).then(function(userInfo) {
+//
+//                var user = new AV.User();
+//                user.set("username", username);
+//                user.set("password", password);
+//                user.set("email", email);
+//                return user.signUp();
+//
+//            }).then(function(user) {
+//
+//                // Everything is done!
+//                response.success(user,user.get(location));
+//
+//            }, function(error) {
+//                // This isn't called because the error was already handled.
+//                alert("Error: " + error.code + " " + error.message);
+//                response.error(error);
+//            });
 
     }
 });
