@@ -9,9 +9,9 @@ AV.Cloud.define('register', function(request, response) {
                 
     var username = request.params.username;
 //    var password = request.params.password;
-    var password = "qweqwe123"
+    var password = "qweqwe123";
     var email = request.params.username + "@qq.com";
-    var base64 = request.params.headView
+    var base64 = request.params.headView;
                 
     if (username && password && email && base64)
     {
@@ -41,8 +41,7 @@ AV.Cloud.define('register', function(request, response) {
                 // This isn't called because the error was already handled.
                 alert("Error: " + error.code + " " + error.message);
                 response.error(error);
-            }
-        );
+            });
 
     }
 });
@@ -53,7 +52,7 @@ AV.Cloud.define('register', function(request, response) {
 AV.Cloud.define('login', function(request, response) {
                 
     var username = request.params.username;
-    var password = "qweqwe123"
+    var password = "qweqwe123";
 
     AV.User.logIn(username, password, {
                   success: function(user) {
@@ -64,5 +63,6 @@ AV.Cloud.define('login', function(request, response) {
                   }
     });
 });
- 
+
+
 
