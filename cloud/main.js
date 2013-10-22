@@ -53,14 +53,14 @@ AV.Cloud.define('register', function(request, response) {
                 }
             });
         }
-    }while(success || --count<=0);
+    }while(!success && --count>0);      //在count>0的情况下 失败就重试
 
 //    response.success(username);
 
     if (success)
     {
 //        response.write('success ' + username);
-        response.success(user,username);
+        response.success(username);
     }
     else
     {
