@@ -5,18 +5,18 @@
 var UserInfo = AV.Object.extend("UserInfo");
 
 //全新注册
-AV.Cloud.define('register', function(request, response) {
-                
-    var username = request.params.username;
-//    var password = request.params.password;
-    var password = "qweqwe123";
-    var email = request.params.username + "@qq.com";
-    var base64 = request.params.headView;
-                
-    if (username && password && email && base64)
-    {
-
-        var file = new AV.File("headView.png", { base64: base64 });
+//AV.Cloud.define('register', function(request, response) {
+//
+//    var username = request.params.username;
+////    var password = request.params.password;
+//    var password = "qweqwe123";
+//    var email = request.params.username + "@qq.com";
+//    var base64 = request.params.headView;
+//
+//    if (username && password && email && base64)
+//    {
+//
+//        var file = new AV.File("headView.png", { base64: base64 });
 //        file.save().then(function(file) {
 //
 //            // 创建该类的一个实例
@@ -42,9 +42,9 @@ AV.Cloud.define('register', function(request, response) {
 //                alert("Error: " + error.code + " " + error.message);
 //                response.error(error);
 //            });
-
-    }
-});
+//
+//    }
+//});
 
 //关联新设备
 
