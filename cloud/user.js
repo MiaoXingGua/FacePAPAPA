@@ -49,20 +49,20 @@ var UserInfo = AV.Object.extend("UserInfo");
 //关联新设备
 
 //登录
-AV.Cloud.define('login', function(request, response) {
-                
-    var username = request.params.username;
-    var password = "qweqwe123";
-
-    AV.User.logIn(username, password, {
-                  success: function(user) {
-                  // Do stuff after successful login.
-                  },
-                  error: function(user, error) {
-                  // The login failed. Check error to see why.
-                  }
-    });
-});
+//AV.Cloud.define('login', function(request, response) {
+//
+//    var username = request.params.username;
+//    var password = "qweqwe123";
+//
+//    AV.User.logIn(username, password, {
+//                  success: function(user) {
+//                  // Do stuff after successful login.
+//                  },
+//                  error: function(user, error) {
+//                  // The login failed. Check error to see why.
+//                  }
+//    });
+//});
 
 
 
