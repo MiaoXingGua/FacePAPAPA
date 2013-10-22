@@ -10,46 +10,64 @@ AV.Cloud.define("hello", function(request, response) {
 });
 
 
+function newGuid()
+{
+    var guid = "";
+    for (var i = 1; i <= 32; i++){
+        var n = Math.floor(Math.random()*16.0).toString(16);
+        guid +=   n;
+        if((i==8)||(i==12)||(i==16)||(i==20))
+            guid += "-";
+    }
+    return guid;
+}
+
+
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
-    var username = request.params.username;
-//    var password = request.params.password;
-    var password = "qweqwe123";
-    var email = request.params.username + "@qq.com";
-    var base64 = request.params.headView;
+    var success = false;
+    var count = 10;
+    var username;
+    var password;
+    var email;
+    do{
+        username = newGuid();
+        password = "qweqwe123";
+        email = newGuid() + "@qq.com";
 
-    if (username && password && email && base64)
-    {
+        if (username && password && email)
+        {
+            var user = new AV.User();
+            user.set("username",username);
+            user.set("password", password);
+            user.set("email", email);
 
-        var file = new AV.File("headView.png", { base64: base64 });
-        file.save().then(function(file) {
-
-            // 创建该类的一个实例
-            var userInfo = new UserInfo();
-            userInfo.set("headView", file);
-            return userInfo.save();
-
-            }).then(function(userInfo) {
-
-                var user = new AV.User();
-                user.set("username", username);
-                user.set("password", password);
-                user.set("email", email);
-                return user.signUp();
-
-            }).then(function(user) {
-
-                // Everything is done!
-                response.success(user,user.get(location));
-
-            }, function(error) {
-                // This isn't called because the error was already handled.
-                alert("Error: " + error.code + " " + error.message);
-                response.error(error);
+            user.signUp(null, {
+                success: function(user) {
+                    success = true;
+                },
+                error: function(user, error) {
+                    success = false;
+                    alert("Error: " + error.code + " " + error.message);
+                }
             });
+        }
+    }while(success || --count<=0)
 
+    if (success)
+    {
+//        response.write('success ' + username);
+        response.success('success ' + username);
     }
+    else
+    {
+//        response.write('false ');
+        response.error('false');
+    }
+
+
+
 });
 
 //关联新设备
