@@ -32,7 +32,7 @@ AV.Cloud.define('register', function(request, response) {
     var password;
     var email;
     do{
-        username = "123456";
+        username = newGuid();
         password = "qweqwe123";
         email = username + "@qq.com";
 
@@ -49,11 +49,13 @@ AV.Cloud.define('register', function(request, response) {
                 },
                 error: function(user, error) {
                     success = false;
-                    alert("Error: " + error.code + " " + error.message);
+//                    alert("Error: " + error.code + " " + error.message);
                 }
             });
         }
     }while(success || --count<=0)
+
+    response.success(username);
 
     if (success)
     {
