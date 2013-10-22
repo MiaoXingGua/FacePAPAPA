@@ -60,7 +60,7 @@ AV.Cloud.define('register', function(request, response) {
     if (success)
     {
 //        response.write('success ' + username);
-        response.success(username);
+        response.success(user,username);
     }
     else
     {
