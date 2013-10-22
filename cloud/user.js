@@ -2,7 +2,7 @@
 // For example:
 
 // 创建AV.Object子类.
-var UserInfo = AV.Object.extend("UserInfo");
+//var UserInfo = AV.Object.extend("UserInfo");
 
 //全新注册
 //AV.Cloud.define('register', function(request, response) {
