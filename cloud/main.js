@@ -142,7 +142,7 @@ var cloopen = function(request, response, username)
 //    console.log('sigstr:' + sigstr);
 
     var sig = md5(sigstr);
-//    console.log('sig:' + sig);
+//    console.log('sig:' + sig    );
 
     var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + username + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
 //    console.log('body:' + bodyxml);
@@ -162,12 +162,12 @@ var cloopen = function(request, response, username)
         body: bodyxml,
         success:function(httpResponse) {
             console.log(httpResponse.text);
-            console.success('Request success with response code ' +httpResponse.text);
-            response.success(httpResponse.text);
-//            parseString(httpResponse.text, function (error, result) {
-////                console.dir(result);
-//                response.success(result);
-//            });
+//            console.success('Request success with response code ' +httpResponse.text);
+//            response.success(httpResponse.text);
+            parseString(httpResponse.text, function (error, result) {
+//                console.dir(result);
+                response.success(result['voipAccount']);
+            });
         },
         error:function(httpResponse) {
 //            console.error('haha:'+bodyxml);
