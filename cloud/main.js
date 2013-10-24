@@ -15,13 +15,12 @@ function newGuid()
     var guid = "";
     for (var i = 1; i <= 32; i++){
         var n = Math.floor(Math.random()*16.0).toString(16);
-        guid +=   n;
+        guid += n;
         if((i==8)||(i==12)||(i==16)||(i==20))
             guid += "-";
     }
     return guid;
 }
-
 
 //全新注册
 AV.Cloud.define('register', function(request, response) {
@@ -30,6 +29,7 @@ AV.Cloud.define('register', function(request, response) {
 
 });
 
+//
 var register = function(response,count,error)
 {
     if (count<=0) response.error(error);
@@ -48,11 +48,13 @@ var register = function(response,count,error)
         user.signUp(null, {
             success: function(user) {
 //                success = true;
-//                response.success(username);
-                testCloopen()
+                console.log(username);
+                response.success(username);
+//                testCloopen() ;
             },
             error: function(user, error) {
 //                success = false;
+                console.log(error);
                 register(response,--count,error);
             }
         });
@@ -68,6 +70,7 @@ AV.Cloud.define('login', function(request, response) {
     AV.User.logIn(username, password, {
                   success: function(user) {
                   // Do stuff after successful login.
+
                       response.success(user);
                   },
                   error: function(user, error) {
@@ -111,7 +114,11 @@ function base64 (text){
 }
 
 AV.Cloud.define('cloopen', function(request, response)
-//var testCloopen = function(request, response)
+{
+    cloopen(request,response);
+});
+
+var cloopen = function(request, response)
 {
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
@@ -131,9 +138,9 @@ AV.Cloud.define('cloopen', function(request, response)
     var bodyxml ='<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>kyefgkuyagefiu</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
 //    console.log('body:' + bodyxml);
 
-    // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
-    // response.success('body:'+bodyxml);
-    // response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
+// console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
+// response.success('body:'+bodyxml);
+// response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
 
     AV.Cloud.httpRequest({
         method: 'POST',
@@ -146,7 +153,7 @@ AV.Cloud.define('cloopen', function(request, response)
         body: bodyxml,
         success:function(httpResponse) {
 //            console.log(httpResponse.text);
-            response.success(httpResponse.text);
+            response.success(httpResponse.data);
         },
         error:function(httpResponse) {
 //            console.error('haha:'+bodyxml);
@@ -154,5 +161,4 @@ AV.Cloud.define('cloopen', function(request, response)
             response.error('Request failed with response code ' + httpResponse.status);
         }
     });
-
-});
+}
