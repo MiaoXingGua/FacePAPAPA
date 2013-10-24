@@ -9,7 +9,7 @@ AV.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
-
+//生成guid
 function newGuid()
 {
     var guid = "";
@@ -58,8 +58,6 @@ var register = function(response,count,error)
     }
 }
 
-//关联新设备
-
 //登录
 AV.Cloud.define('login', function(request, response) {
 
@@ -69,9 +67,25 @@ AV.Cloud.define('login', function(request, response) {
     AV.User.logIn(username, password, {
                   success: function(user) {
                   // Do stuff after successful login.
+                      response.success(user);
                   },
                   error: function(user, error) {
                   // The login failed. Check error to see why.
+                      response.error(error);
                   }
+    });
+});
+
+//更新头像
+AV.Cloud.define('uploadHeaderView', function(request, response) {
+
+    var base64 = request.params.headView;
+    var headViewFile = new AV.File("headView.png", { base64: base64 });
+    headViewFile.save().then(function() {
+        // The file has been saved to AV.
+        response.success('success');
+    }, function(error) {
+        // The file either could not be read, or could not be saved to AV.
+        response.error(error);
     });
 });
