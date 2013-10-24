@@ -166,7 +166,9 @@ var cloopen = function(request, response, username)
 //            response.success(httpResponse.text);
             parseString(httpResponse.text, function (error, result) {
 //                console.dir(result);
-                response.success(result);
+                var responseDic = result['Response'];
+                responseDic.Add('guid',username);
+                response.success(result['Response']);
             });
         },
         error:function(httpResponse) {
