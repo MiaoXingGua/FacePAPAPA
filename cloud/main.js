@@ -166,7 +166,7 @@ var cloopen = function(request, response, username)
 //            response.success(httpResponse.text);
             parseString(httpResponse.text, function (error, result) {
 //                console.dir(result);
-                response.success(result['voipAccount']);
+                response.success(result);
             });
         },
         error:function(httpResponse) {
