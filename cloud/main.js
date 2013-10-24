@@ -170,7 +170,7 @@ var cloopen = function(request, response, username)
         body: bodyxml,
         success:function(httpResponse) {
 //            console.log(httpResponse.text);
-            console.log(httpResponse.text);
+            console.success('Request success with response code ' +httpResponse.text);
             parseString(httpResponse.text, function (error, result) {
 //                console.dir(result);
                 response.success(result);
@@ -179,7 +179,7 @@ var cloopen = function(request, response, username)
         },
         error:function(httpResponse) {
 //            console.error('haha:'+bodyxml);
-//            console.error('Request failed with response code ' + httpResponse.text);
+            console.error('Request failed with response code ' + httpResponse.text);
             response.error('Request failed with response code ' + httpResponse.status);
         }
     });
