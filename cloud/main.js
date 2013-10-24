@@ -118,6 +118,7 @@ function base64 (text)
 }
 
 var parseString = require('xml2js').parseString;
+var parseDictionary = require('xml2js').params;
 
 AV.Cloud.define('cloopen', function(request, response)
 {
@@ -164,11 +165,17 @@ var cloopen = function(request, response, username)
             console.log(httpResponse.text);
 //            console.success('Request success with response code ' +httpResponse.text);
 //            response.success(httpResponse.text);
-            var dic = new Di
-            parseString(httpResponse.text, function (error, result) {
-//                console.dir(result);
+
+//            parseString(httpResponse.text, function (error, result) {
+////                console.dir(result);
+//                var responseDic = result['Response'];
+////                responseDic.Add('guid',username);
+//                response.success(responseDic);
+//            });
+
+            parseDictionary(httpResponse.text, function (error, result) {
+
                 var responseDic = result['Response'];
-//                responseDic.Add('guid',username);
                 response.success(responseDic);
             });
         },
