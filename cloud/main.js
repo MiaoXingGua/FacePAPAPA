@@ -128,7 +128,7 @@ AV.Cloud.define('cloopen', function(request, response)
     var sig = md5(sigstr);
 //    console.log('sig:' + sig);
 
-    var bodyxml ='<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>33dd556@qq.com</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
+    var bodyxml ='<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>kyefgkuyagefiu</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
 //    console.log('body:' + bodyxml);
 
     // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
