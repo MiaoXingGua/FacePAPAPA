@@ -117,15 +117,23 @@ function base64 (text){
 }
 
 var parseString = require('xml2js').parseString;
+//    xml2js = require('xml2js');
 
-
+//var parser = new xml2js.Parser();
+//fs.readFile(__dirname + '/foo.xml', function(err, data) {
+//    parser.parseString(data, function (err, result) {
+//        console.dir(result);
+//        console.log('Done');
+//    });
+//});
 
 AV.Cloud.define('cloopen', function(request, response)
 {
-    cloopen(request,response);
+    var username = newGuid();
+    cloopen(request,response,username);
 });
 
-var cloopen = function(request, response)
+var cloopen = function(request, response, username)
 {
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
@@ -142,7 +150,7 @@ var cloopen = function(request, response)
     var sig = md5(sigstr);
 //    console.log('sig:' + sig);
 
-    var bodyxml ='<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>1231asuydfaufasdqw</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
+    var bodyxml ='<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + username + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
 //    console.log('body:' + bodyxml);
 
 // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
@@ -160,8 +168,9 @@ var cloopen = function(request, response)
         body: bodyxml,
         success:function(httpResponse) {
 //            console.log(httpResponse.text);
+            console.log(httpResponse.text);
             parseString(httpResponse.text, function (error, result) {
-                console.dir(result);
+//                console.dir(result);
                 response.success(result);
             });
 
