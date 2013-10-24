@@ -25,6 +25,7 @@ function newGuid()
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
+    console.log('register');
     register(response,10,null);
 
 });
