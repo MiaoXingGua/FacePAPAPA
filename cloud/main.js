@@ -112,31 +112,30 @@ function md5 (text) {
     return crypto.createHash('md5').update(text).digest('hex');
 };
 
-function base64 (text){
+function base64 (text)
+{
     return new Buffer(text).toString('base64');
 }
 
 var parseString = require('xml2js').parseString;
-//    xml2js = require('xml2js');
-
-//var parser = new xml2js.Parser();
-//fs.readFile(__dirname + '/foo.xml', function(err, data) {
-//    parser.parseString(data, function (err, result) {
-//        console.dir(result);
-//        console.log('Done');
-//    });
-//});
 
 AV.Cloud.define('cloopen', function(request, response)
 {
     var username = newGuid();
-    cloopen(request,response,username);
+    console.log('cloopen');
+//    cloopen(request,response,username);
 });
+
+//全新注册
+//AV.Cloud.define('register', function(request, response) {
+//
+//    console.log('register');
+//    register(response,10,null);
+//
+//});
 
 var cloopen = function(request, response, username)
 {
-    console.log('cloopen');
-
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -171,11 +170,10 @@ var cloopen = function(request, response, username)
         success:function(httpResponse) {
 //            console.log(httpResponse.text);
             console.success('Request success with response code ' +httpResponse.text);
-            parseString(httpResponse.text, function (error, result) {
-//                console.dir(result);
-                response.success(result);
-            });
-
+//            parseString(httpResponse.text, function (error, result) {
+////                console.dir(result);
+//                response.success(result);
+//            });
         },
         error:function(httpResponse) {
 //            console.error('haha:'+bodyxml);
