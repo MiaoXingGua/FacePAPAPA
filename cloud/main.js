@@ -118,7 +118,7 @@ function base64 (text)
 }
 
 var parseString = require('xml2js').parseString;
-var parseDictionary = require('xml2js').params;
+var parse = require('xml2js').Parser();
 
 AV.Cloud.define('cloopen', function(request, response)
 {
@@ -173,7 +173,7 @@ var cloopen = function(request, response, username)
 //                response.success(responseDic);
 //            });
 
-            parseDictionary(httpResponse.text, function (error, result) {
+            parse(httpResponse.text, function (error, result) {
 
                 var responseDic = result['Response'];
                 response.success(responseDic);
