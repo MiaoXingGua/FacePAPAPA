@@ -31,6 +31,7 @@ AV.Cloud.define('register', function(request, response) {
     var username;
     var password;
     var email;
+    var error;
     do{
         username = newGuid();
         password = "qweqwe123";
@@ -46,10 +47,11 @@ AV.Cloud.define('register', function(request, response) {
             user.signUp(null, {
                 success: function(user) {
                     success = true;
-                    response.success(user);
+                    response.success("Hello world!");
                 },
                 error: function(user, error) {
                     success = false;
+                    error = error;
 //                    alert("Error: " + error.code + " " + error.message);
                 }
             });
