@@ -6,7 +6,8 @@
 var UserInfo = AV.Object.extend("UserInfo");
 
 AV.Cloud.define("hello", function(request, response) {
-  response.success("Hello world!");
+    console.log('hello');
+    response.success("Hello world!");
 });
 
 //生成guid
