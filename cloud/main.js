@@ -123,16 +123,9 @@ AV.Cloud.define('cloopen', function(request, response)
 {
     var username = newGuid();
     console.log('cloopen');
-//    cloopen(request,response,username);
+    cloopen(request,response,username);
 });
 
-//全新注册
-//AV.Cloud.define('register', function(request, response) {
-//
-//    console.log('register');
-//    register(response,10,null);
-//
-//});
 
 var cloopen = function(request, response, username)
 {
@@ -168,8 +161,9 @@ var cloopen = function(request, response, username)
         },
         body: bodyxml,
         success:function(httpResponse) {
-//            console.log(httpResponse.text);
+            console.log(httpResponse.text);
             console.success('Request success with response code ' +httpResponse.text);
+            response.success(httpResponse.text);
 //            parseString(httpResponse.text, function (error, result) {
 ////                console.dir(result);
 //                response.success(result);
