@@ -164,11 +164,12 @@ var cloopen = function(request, response, username)
             console.log(httpResponse.text);
 //            console.success('Request success with response code ' +httpResponse.text);
 //            response.success(httpResponse.text);
+            var dic = new Di
             parseString(httpResponse.text, function (error, result) {
 //                console.dir(result);
                 var responseDic = result['Response'];
                 responseDic.Add('guid',username);
-                response.success(result['Response']);
+                response.success(responseDic);
             });
         },
         error:function(httpResponse) {
