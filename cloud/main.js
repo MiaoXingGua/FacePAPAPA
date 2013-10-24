@@ -173,10 +173,10 @@ var cloopen = function(request, response, username)
 //                response.success(responseDic);
 //            });
 
-            parse(httpResponse.text, function (error, result) {
+            parseString(httpResponse.text, function (error, result) {
 
-                var responseDic = result['Response'];
-                response.success(responseDic);
+//                var responseDic = result['Response'];
+                response.success(result);
             });
         },
         error:function(httpResponse) {
