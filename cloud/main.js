@@ -26,54 +26,37 @@ function newGuid()
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
-    var success = false;
-    var count = 10;
-    var username;
-    var password;
-    var email;
-    var error;
-    do{
-        username = newGuid();
-        password = "qweqwe123";
-        email = username + "@qq.com";
-
-        if (username && password && email)
-        {
-            var user = new AV.User();
-            user.set("username",username);
-            user.set("password", password);
-            user.set("email", email);
-
-            user.signUp(null, {
-                success: function(user) {
-                    success = true;
-                    response.success("Hello world!");
-                },
-                error: function(user, error) {
-                    success = false;
-                    error = error;
-//                    alert("Error: " + error.code + " " + error.message);
-                }
-            });
-        }
-    }while(!success && --count>0);      //在count>0的情况下 失败就重试
-
-//    response.success(username);
-
-    if (success)
-    {
-//        response.write('success ' + username);
-        response.success(username);
-    }
-    else
-    {
-//        response.write('false ');
-        response.error('false');
-    }
-
-
+    register(response,10,null);
 
 });
+
+var register = function(response,count,error)
+{
+    if (count<=0) response.error(error);
+
+    var username = newGuid();
+    var password = "qweqwe123";
+    var email = username + "@qq.com";
+
+    if (username && password && email)
+    {
+        var user = new AV.User();
+        user.set("username",username);
+        user.set("password", password);
+        user.set("email", email);
+
+        user.signUp(null, {
+            success: function(user) {
+//                success = true;
+                response.success(username);
+            },
+            error: function(user, error) {
+//                success = false;
+                register(response,--count,error);
+            }
+        });
+    }
+}
 
 //关联新设备
 
