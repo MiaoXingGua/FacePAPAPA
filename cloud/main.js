@@ -4,6 +4,7 @@
 
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
+AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
     console.log('hello');
