@@ -192,8 +192,8 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
                     console.log( '类型' +typeof (result) );
-                    console.log( '字典？' +typeof (result.Response.SubAccount.subAccountSid) );
-                    console.log( '字典？!!!' +typeof (result.object) );
+                    console.log( '字典？' +typeof (result.Response.SubAccount) );
+                    console.log( '字典？!!!' +typeof result.Response.SubAccount['subAccountSid']);
 //                    for (i in result)
 //                    {
 //                        console.log(i);
@@ -202,7 +202,7 @@ var cloopenSignUp = function(request, response, user)
 //                    console.log(result['Response']);
 //                    console.dir(result);
 //                    cloopen2avos(user,result);
-                    response.success(result);
+                    response.success(result.Response);
                 }
                 else
                 {
