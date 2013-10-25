@@ -232,24 +232,26 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
-        userInfo.save().then(function(userInfo) {
+        userInfo.save(null, {
+        success: function(userInfo) {
 
-            console.log('voip = ' +userInfo.get('voipAccount'));
+            alert('New object created with objectId: ' + gameScore.id);
             currentUser.set("userInfo",userInfo);
-            return currentUser.save();
+            currentUser.save(null, {
+                success: function(currentUser) {
 
-            }).then(function() {
+                    response.success(currentUser.get('username'));
+                },
+                error: function(currentUser, error) {
 
-                console.log('username4=' + currentUser.get('username'));
+                    response.error('Request failed with response code ' + error.description);
+                }});
+        },
+        error: function(userInfo, error) {
 
-                response.success(currentUser.get('username'));
+            alert('Failed to create new object, with error code: ' + error.description);
+        }});
 
-            }, function(error) {
-
-                console.error(error);
-                response.error(error);
-
-            });
     }
     else
     {
@@ -257,3 +259,22 @@ var cloopen2avos = function(request, response, xmppInfo)
         response.error('Request failed with response code ' + xmppInfo);
     }
 }
+
+
+//userInfo.save().then(function(userInfo) {
+//
+//    currentUser.set("userInfo",userInfo);
+//    return currentUser.save();
+//
+//}).then(function() {
+//
+//        console.log('username4=' + currentUser.get('username'));
+//
+//        response.success(currentUser.get('username'));
+//
+//    }, function(error) {
+//
+//        console.error(error);
+//        response.error(error);
+//
+//    });
