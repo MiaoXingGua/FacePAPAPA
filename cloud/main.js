@@ -28,7 +28,7 @@ function newGuid()
 AV.Cloud.define('register', function(request, response) {
 
     console.log('注册');
-    AV.Cloud.useMasterKey();
+
     register(request,response,10,null);
 
 });
@@ -234,7 +234,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
-        userInfo.save().then(function(userInfo) {
+        userInfo.save().then(function(user, userInfo) {
 
             console.log('userInfo成功');
             user.set("userInfo",userInfo);
