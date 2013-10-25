@@ -234,9 +234,6 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
-            console.log('userInfo成功');
-            console.log('username3=' + currentUser.get('username'));
-
             currentUser.set("userInfo",userInfo);
             return currentUser.save();
 
@@ -248,8 +245,8 @@ var cloopen2avos = function(request, response, xmppInfo)
 
             }, function(error) {
 
-                console.error('Request failed with response code ' + xmppInfo);
-                response.error('Request failed with response code ' + xmppInfo);
+                console.error(error);
+                response.error(error);
 
             });
     }
