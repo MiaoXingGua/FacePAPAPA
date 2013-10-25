@@ -217,13 +217,15 @@ var cloopen2avos = function(request, response, user, xmppInfo)
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
     var voipPwd = xmppInfo.Response.SubAccount[0].voipPwd[0];
 
-    console.log('subAccountSid  :  '+subAccountSid);
-    console.log('subToken  :  '+subToken);
-    console.log('voipAccount  :  '+voipAccount);
-    console.log('voipPwd  :  '+voipPwd);
+//    console.log('subAccountSid  :  '+subAccountSid);
+//    console.log('subToken  :  '+subToken);
+//    console.log('voipAccount  :  '+voipAccount);
+//    console.log('voipPwd  :  '+voipPwd);
 
     if (subAccountSid && subToken && voipAccount && voipPwd)
     {
+
+
         var userInfo = new UserInfo();
         userInfo.set("user", user);
         userInfo.set("subAccountSid", subAccountSid);
@@ -231,12 +233,12 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function() {
-
+            console.log('userInfo成功');
             user.set("userInfo",userInfo);
             return user.save();
 
             }).then(function() {
-
+                console.log('user成功');
                 response.success(user.get('username'));
 
             }, function(error) {
