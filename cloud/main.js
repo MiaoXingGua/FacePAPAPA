@@ -168,6 +168,8 @@ var cloopen = function(request, response, username)
 
             var xml = httpResponse.text+'<guid>'+username+'</guid>';
 
+            console.log(xml);
+
             parseString(xml, function (error, result) {
 
                 response.success(result);
