@@ -217,7 +217,7 @@ var cloopenSignUp = function(request, response, user)
 var cloopen2avos = function(request, response, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
-    console.log('New object created0');
+    ;
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -227,14 +227,16 @@ var cloopen2avos = function(request, response, xmppInfo)
     {
 
         var userInfo = new UserInfo();
-        userInfo.set("user", AV.Object.createWithoutData("_User", currentUser.id));
+        var userId = AV.Object.createWithoutData("_User", currentUser.id);
+        userInfo.set("user", userId);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
-            currentUser.set("userInfo",AV.Object.createWithoutData("UserInfo", userInfo.id));
+            var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
+            currentUser.set("userInfo",userInfoId);
             return currentUser.save();
 
              }).then(function() {
@@ -243,7 +245,7 @@ var cloopen2avos = function(request, response, xmppInfo)
 
             }, function(error) {
 
-                console.error(error);zaz
+                console.error(error);
                 response.error(error);
 
             });
