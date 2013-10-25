@@ -190,7 +190,8 @@ var cloopenSignUp = function(request, response, user)
             parseString(httpResponse.text, function (error, result) {
                 if (result)
                 {
-                    console.dir(result);
+                    console.log(result['Response']);
+//                    console.dir(result);
 //                    cloopen2avos(user,result);
 //                    response.success(result);
                 }
@@ -212,6 +213,7 @@ var cloopenSignUp = function(request, response, user)
 
 var cloopen2avos = function(user,avos)
 {
+    avos
     var userInfo = new UserInfo();
     userInfo.set("user", user);
     userInfo.set("user", user);
