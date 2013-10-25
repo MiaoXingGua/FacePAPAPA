@@ -162,25 +162,18 @@ var cloopen = function(request, response, username)
         },
         body: bodyxml,
         success:function(httpResponse) {
+
             console.log(httpResponse.text);
-//            console.success('Request success with response code ' +httpResponse.text);
-//            response.success(httpResponse.text);
+            console.log(username);
 
-//            parseString(httpResponse.text, function (error, result) {
-////                console.dir(result);
-//                var responseDic = result['Response'];
-////                responseDic.Add('guid',username);
-//                response.success(responseDic);
-//            });
+            parseString(httpResponse.text+'<guid>'+username+'</guid>', function (error, result) {
 
-            parseString(httpResponse.text, function (error, result) {
-
-//                var responseDic = result['Response'];
-                response.success(result,username);
+                response.success(responseDic);
             });
+
         },
         error:function(httpResponse) {
-//            console.error('haha:'+bodyxml);
+
             console.error('Request failed with response code ' + httpResponse.text);
             response.error('Request failed with response code ' + httpResponse.status);
         }
