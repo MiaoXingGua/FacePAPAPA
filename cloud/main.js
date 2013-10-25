@@ -170,6 +170,7 @@ var cloopenSignUp = function(request, response, user)
 // response.success('body:'+bodyxml);
 // response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
 //
+    console.log( '死u啊古代u闪光灯' );
     AV.Cloud.httpRequest({
         method: 'POST',
         url: 'https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase(),
@@ -190,15 +191,16 @@ var cloopenSignUp = function(request, response, user)
             parseString(httpResponse.text, function (error, result) {
                 if (result)
                 {
-                    for (i in result)
-                    {
-                        console.log(i);
-                        console.log(result[i]);
-                    }
-                    console.log(result['Response']);
+                    console.log( typeof (result) );
+//                    for (i in result)
+//                    {
+//                        console.log(i);
+//                        console.log(result[i]);
+//                    }
+//                    console.log(result['Response']);
 //                    console.dir(result);
 //                    cloopen2avos(user,result);
-                    response.success(result['Response']);
+                    response.success(result);
                 }
                 else
                 {
