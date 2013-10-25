@@ -50,8 +50,8 @@ var register = function(request,response,count,error)
         user.signUp(null, {
             success: function(user) {
                 //注册云通信
-                console.log('username=' + user.get('username'));
-                console.log('objectId=' + user.get('objectId'));
+//                console.log('username=' + user.get('username'));
+//                console.log('objectId=' + user.get('objectId'));
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
@@ -149,7 +149,6 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-    console.dic(currentUser.get('username'));
 
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
@@ -190,11 +189,11 @@ var cloopenSignUp = function(request, response, user)
 //            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
 //            console.log(xml);
 
-            parseString(httpResponse.text, function (error, result) {
+            parseString(httpResponse.text, function (error, result, user) {
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    cloopen2avos(request, response, result);
+                    cloopen2avos(request, response, result, user);
                 }
                 else
                 {
@@ -212,9 +211,10 @@ var cloopenSignUp = function(request, response, user)
     });
 }
 
-var cloopen2avos = function(request, response, xmppInfo)
+var cloopen2avos = function(request, response, xmppInfo, user)
 {
-    console.dic(currentUser);
+    console.log('username2=' + user.get('username'));
+
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -224,7 +224,7 @@ var cloopen2avos = function(request, response, xmppInfo)
     {
 
         var userInfo = new UserInfo();
-        userInfo.set("user", currentUser);
+        userInfo.set("user", user);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
@@ -232,13 +232,16 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.save().then(function(userInfo) {
 
             console.log('userInfo成功');
-            currentUser.set("userInfo",userInfo);
-            return currentUser.save();
+            console.log('username3=' + user.get('username'));
+
+            user.set("userInfo",userInfo);
+            return user.save();
 
             }).then(function(user) {
 
-                console.log(currentUser.get('username'));
-                response.success(currentUser.get('username'));
+                console.log('username4=' + user.get('username'));
+
+                response.success(user.get('username'));
 
             }, function(error) {
 
