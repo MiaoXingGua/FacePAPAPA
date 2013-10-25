@@ -234,6 +234,7 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
+            console.log('voip = ' +userInfo.get('voipAccount'));
             currentUser.set("userInfo",userInfo);
             return currentUser.save();
 
