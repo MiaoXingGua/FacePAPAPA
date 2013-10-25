@@ -232,12 +232,14 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
-        userInfo.save().then(function() {
+        userInfo.save().then(function(userInfo) {
+
             console.log('userInfo成功');
             user.set("userInfo",userInfo);
             return user.save();
 
-            }).then(function() {
+            }).then(function(user) {
+
                 console.log('user成功');
                 response.success(user.get('username'));
 
