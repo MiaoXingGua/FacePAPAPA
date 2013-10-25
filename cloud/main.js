@@ -26,7 +26,7 @@ function newGuid()
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
-    console.log('register');
+    console.log('注册');
     register(request,response,10,null);
 
 });
@@ -47,15 +47,12 @@ var register = function(request,response,count,error)
 
         user.signUp(null, {
             success: function(user) {
-
-//                response.success(username);
                 //注册云通信
-                console.log(user.get('username'));
+
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
 
-//                console.log(error);
                 register(response,--count,error);
             }
         });
@@ -138,16 +135,18 @@ function base64 (text)
 var parseString = require('xml2js').parseString;
 var parse = require('xml2js').Parser();
 
-AV.Cloud.define('cloopen', function(request, response)
-{
+//AV.Cloud.define('cloopen', function(request, response)
+//{
 //    var username = newGuid();
-    console.log('cloopen');
+//    console.log('cloopen');
 //    cloopenSignUp(request,response,username);
-});
+//});
 
 //注册云通讯
 var cloopenSignUp = function(request, response, user)
 {
+    console.log('注册云通讯');
+
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -170,7 +169,7 @@ var cloopenSignUp = function(request, response, user)
 // response.success('body:'+bodyxml);
 // response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
 //
-    console.log( '死闪光灯' );
+
     AV.Cloud.httpRequest({
         method: 'POST',
         url: 'https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase(),
@@ -191,18 +190,8 @@ var cloopenSignUp = function(request, response, user)
             parseString(httpResponse.text, function (error, result) {
                 if (result)
                 {
-                    console.log( '类型' +typeof (result) );
-                    console.log( '字典？' +typeof (result.Response.SubAccount) );
-                    console.log( '字典？!!!' +typeof result.Response.SubAccount[0].subAccountSid[0]);
-//                    for (i in result)
-//                    {
-//                        console.log(i);
-//                        console.log(result[i]);
-//                    }
-//                    console.log(result['Response']);
-//                    console.dir(result);
-//                    cloopen2avos(user,result);
-                    response.success(result.Response);
+//                    console.log( '类型' +typeof (result) );
+                    cloopen2avos(request, response, user,result);
                 }
                 else
                 {
@@ -220,13 +209,41 @@ var cloopenSignUp = function(request, response, user)
     });
 }
 
-var cloopen2avos = function(user,avos)
+var cloopen2avos = function(request, response, user, xmppInfo)
 {
-    avos
-    var userInfo = new UserInfo();
-    userInfo.set("user", user);
-    userInfo.set("user", user);
-    userInfo.set("user", user);
-    userInfo.set("user", user);
-    userInfo.set("user", user);
+    var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
+    var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
+    var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
+    var voipPwd = xmppInfo.Response.SubAccount[0].voipPwd[0];
+
+    if (subAccountSid && subToken && voipAccount && voipPwd)
+    {
+        var userInfo = new UserInfo();
+        userInfo.set("user", user);
+        userInfo.set("subAccountSid", subAccountSid);
+        userInfo.set("subToken", subToken);
+        userInfo.set("voipAccount", voipAccount);
+        userInfo.set("voipPwd", voipPwd);
+        userInfo.save().then(function() {
+
+            user.set("userInfo",userInfo);
+            return user.save();
+
+            }).then(function() {
+
+                response.success(user.get('username'));
+
+            }, function(error) {
+
+                console.error('Request failed with response code ' + xmppInfo);
+                response.error('Request failed with response code ' + xmppInfo);
+
+            });
+    }
+    else
+    {
+        console.error('Request failed with response code ' + xmppInfo);
+        response.error('Request failed with response code ' + xmppInfo);
+    }
+
 }
