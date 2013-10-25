@@ -163,10 +163,10 @@ var cloopen = function(request, response, username)
         body: bodyxml,
         success:function(httpResponse) {
 
-            console.log(httpResponse.text);
-            console.log(username);
+//            console.log(httpResponse.text);
+//            console.log(username);
 
-            var xml = httpResponse.text+'<guid>'+username+'</guid>';
+            var xml = httpResponse.text+'<AVOS><guid>'+username+'</guid></AVOS>';
 
             console.log(xml);
 
