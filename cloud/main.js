@@ -193,7 +193,7 @@ var cloopenSignUp = function(request, response, user)
                     for (i in result)
                     {
                         console.log(i);
-                        console.log(result([i]);
+                        console.log(result[i]);
                     }
                     console.log(result['Response']);
 //                    console.dir(result);
