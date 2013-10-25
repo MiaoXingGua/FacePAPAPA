@@ -193,6 +193,7 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
+                    console.log('username2=' + user.get('username'));
                     cloopen2avos(request, response, result, user);
                 }
                 else
