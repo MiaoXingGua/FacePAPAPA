@@ -242,7 +242,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
             }).then(function(user) {
 
-                console.log('user成功');
+                console.log(user.get('username'));
                 response.success(user.get('username'));
 
             }, function(error) {
