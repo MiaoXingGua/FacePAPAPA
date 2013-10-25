@@ -181,7 +181,7 @@ var cloopenSignUp = function(request, response, user)
             'Authorization': authorization64
         },
         body: bodyxml,
-        success:function(httpResponse) {
+        success:function(httpResponse,user) {
 
 //            console.log(httpResponse.text);
 //            console.log(username);
