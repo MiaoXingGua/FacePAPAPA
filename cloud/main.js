@@ -148,7 +148,7 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-    console.dic(user.get('username'));
+    console.dic(currentUser.get('username'));
 
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
