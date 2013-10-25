@@ -181,7 +181,7 @@ var cloopenSignUp = function(request, response, user)
             'Authorization': authorization64
         },
         body: bodyxml,
-        success:function(httpResponse,user) {
+        success:function(httpResponse) {
 
 //            console.log(httpResponse.text);
 //            console.log(username);
@@ -189,9 +189,9 @@ var cloopenSignUp = function(request, response, user)
 //            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
 //            console.log(xml);
 
-            console.log('username0=' );
+            console.log('username0=' +currentUser.get('username'));
             parseString(httpResponse.text, function (error, result, user) {
-                console.log('username1=' + user.get('username'));
+                console.log('username1=' + currentUser.get('username'));
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
