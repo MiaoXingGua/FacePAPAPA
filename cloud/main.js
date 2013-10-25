@@ -28,7 +28,7 @@ function newGuid()
 AV.Cloud.define('register', function(request, response) {
 
     console.log('注册');
-    userMasterKey;
+    AV.Cloud.useMasterKey();
     register(request,response,10,null);
 
 });
