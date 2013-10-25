@@ -193,7 +193,7 @@ var cloopenSignUp = function(request, response, user)
                     console.log(result['Response']);
 //                    console.dir(result);
 //                    cloopen2avos(user,result);
-//                    response.success(result);
+                    response.success(result['Response']);
                 }
                 else
                 {
