@@ -50,6 +50,7 @@ var register = function(response,count,error)
 
 //                response.success(username);
                 //注册云通信
+                console.log(user.username);
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
@@ -139,9 +140,9 @@ var parse = require('xml2js').Parser();
 
 AV.Cloud.define('cloopen', function(request, response)
 {
-    var username = newGuid();
+//    var username = newGuid();
     console.log('cloopen');
-    cloopen(request,response,username);
+//    cloopenSignUp(request,response,username);
 });
 
 //注册云通讯
