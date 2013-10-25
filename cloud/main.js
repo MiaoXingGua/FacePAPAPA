@@ -189,7 +189,7 @@ var cloopenSignUp = function(request, response, user)
 //            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
 //            console.log(xml);
 
-            console.log('username0=' + user.get('username'));
+            console.log('username0=' );
             parseString(httpResponse.text, function (error, result, user) {
                 console.log('username1=' + user.get('username'));
                 if (result)
