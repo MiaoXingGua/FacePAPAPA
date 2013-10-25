@@ -235,11 +235,11 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.save(null, {
         success: function(userInfo) {
 
-            alert('New object created with objectId: ' + gameScore.id);
+            alert('New object created1');
             currentUser.set("userInfo",userInfo);
             currentUser.save(null, {
                 success: function(currentUser) {
-
+                    alert('New object created2');
                     response.success(currentUser.get('username'));
                 },
                 error: function(currentUser, error) {
