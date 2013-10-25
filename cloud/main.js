@@ -27,11 +27,11 @@ function newGuid()
 AV.Cloud.define('register', function(request, response) {
 
     console.log('register');
-    register(response,10,null);
+    register(request,response,10,null);
 
 });
 
-var register = function(response,count,error)
+var register = function(request,response,count,error)
 {
     if (count<=0) response.error(error);
 
