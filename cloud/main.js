@@ -31,8 +31,6 @@ AV.Cloud.define('register', function(request, response) {
 
 });
 
-//
-
 var register = function(response,count,error)
 {
     if (count<=0) response.error(error);
@@ -49,14 +47,14 @@ var register = function(response,count,error)
 
         user.signUp(null, {
             success: function(user) {
-//                success = true;
-                console.log(username);
-                response.success(username);
-//                testCloopen() ;
+
+//                response.success(username);
+                //注册云通信
+                cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
-//                success = false;
-                console.log(error);
+
+//                console.log(error);
                 register(response,--count,error);
             }
         });
@@ -72,6 +70,8 @@ AV.Cloud.define('login', function(request, response) {
     var username = request.params.username;
 
     register(username, response);
+
+
 });
 
 var login = function(username, response)
@@ -89,12 +89,11 @@ var login = function(username, response)
     });
 }
 
-
+var currentUser = AV.User.current();
 
 //更新头像
 AV.Cloud.define('uploadHeaderView', function(request, response) {
 
-    var currentUser = ParseUser.getCurrentUser();
     if (currentUser)
     {
         // 允许用户使用应用
@@ -118,8 +117,6 @@ AV.Cloud.define('uploadHeaderView', function(request, response) {
         //缓存用户对象为空时， 可打开用户注册界面…
         response.error('请先登录');
     }
-
-
 });
 
 //云通讯
@@ -144,16 +141,11 @@ AV.Cloud.define('cloopen', function(request, response)
 {
     var username = newGuid();
     console.log('cloopen');
-//    var xml = '<AVOS><?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><SubAccount><dateCreated>2013-10-25 11:19:04</dateCreated><subAccountSid>8a2080ad41e4db7e0141ed9f561d0b68</subAccountSid><subToken>2b2144f47e2a4cc8826fbdefebc1280e</subToken><voipAccount>80391200000090</voipAccount><voipPwd>yY6ji8P2</voipPwd></SubAccount></Response><guid>9b50bc18-27f4-bb3d-1e19-ddbdf8dd3d23</guid></AVOS> '
-//    parseString(xml, function (error, result) {
-//
-//        response.success(result);
-//    });
     cloopen(request,response,username);
 });
 
-
-var cloopen = function(request, response, username)
+//注册云通讯
+var cloopenSignUp = function(request, response, user)
 {
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
@@ -170,7 +162,7 @@ var cloopen = function(request, response, username)
     var sig = md5(sigstr);
 //    console.log('sig:' + sig    );
 
-    var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + username + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
+    var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + user.username + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
 //    console.log('body:' + bodyxml);
 
 // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
@@ -191,14 +183,15 @@ var cloopen = function(request, response, username)
 //            console.log(httpResponse.text);
 //            console.log(username);
 
-            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
+//            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
+//            console.log(xml);
 
-            console.log(xml);
-
-            parseString(xml, function (error, result) {
+            parseString(httpResponse.text, function (error, result) {
                 if (result)
                 {
-                    response.success(result);
+                    console.dir(result);
+//                    cloopen2avos(user,result);
+//                    response.success(result);
                 }
                 else
                 {
@@ -214,4 +207,14 @@ var cloopen = function(request, response, username)
             response.error('Request failed with response code ' + httpResponse.status);
         }
     });
+}
+
+var cloopen2avos = function(user,avos)
+{
+    var userInfo = new UserInfo();
+    userInfo.set("user", user);
+    userInfo.set("user", user);
+    userInfo.set("user", user);
+    userInfo.set("user", user);
+    userInfo.set("user", user);
 }
