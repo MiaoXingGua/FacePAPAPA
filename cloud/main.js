@@ -50,7 +50,8 @@ var register = function(request,response,count,error)
         user.signUp(null, {
             success: function(user) {
                 //注册云通信
-
+                console.log('username=' + user.get('username'));
+                console.log('objectId=' + user.get('objectId'));
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
