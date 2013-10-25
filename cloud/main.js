@@ -189,14 +189,14 @@ var cloopenSignUp = function(request, response, user)
 //            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
 //            console.log(xml);
 
-            console.log('username0=' +currentUser.get('username'));
-            parseString(httpResponse.text, function (error, result, user) {
-                console.log('username1=' + currentUser.get('username'));
+//            console.log('username0=' +currentUser.get('username'));
+            parseString(httpResponse.text, function (error, result) {
+//                console.log('username1=' + currentUser.get('username'));
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
 
-                    cloopen2avos(request, response, result, user);
+                    cloopen2avos(request, response, result);
                 }
                 else
                 {
@@ -214,9 +214,9 @@ var cloopenSignUp = function(request, response, user)
     });
 }
 
-var cloopen2avos = function(request, response, xmppInfo, user)
+var cloopen2avos = function(request, response, xmppInfo)
 {
-    console.log('username2=' + user.get('username'));
+    console.log('username2=' + currentUser.get('username'));
 
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
@@ -227,7 +227,7 @@ var cloopen2avos = function(request, response, xmppInfo, user)
     {
 
         var userInfo = new UserInfo();
-        userInfo.set("user", user);
+        userInfo.set("user", currentUser);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
@@ -235,16 +235,16 @@ var cloopen2avos = function(request, response, xmppInfo, user)
         userInfo.save().then(function(userInfo) {
 
             console.log('userInfo成功');
-            console.log('username3=' + user.get('username'));
+            console.log('username3=' + currentUser.get('username'));
 
             user.set("userInfo",userInfo);
             return user.save();
 
-            }).then(function(user) {
+            }).then(function() {
 
-                console.log('username4=' + user.get('username'));
+                console.log('username4=' + currentUser.get('username'));
 
-                response.success(user.get('username'));
+                response.success(currentUser.get('username'));
 
             }, function(error) {
 
