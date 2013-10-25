@@ -193,7 +193,7 @@ var cloopenSignUp = function(request, response, user)
                 {
                     console.log( '类型' +typeof (result) );
                     console.log( '字典？' +typeof (result.Response.SubAccount) );
-                    console.log( '字典？!!!' +typeof result.Response.SubAccount['subAccountSid']);
+                    console.log( '字典？!!!' +typeof result.Response.SubAccount[0].subAccountSid[0]);
 //                    for (i in result)
 //                    {
 //                        console.log(i);
