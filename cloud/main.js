@@ -235,12 +235,14 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
+            console.log('xxxxxx');
             var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
             currentUser.set("userInfo",userInfoId);
             return currentUser.save();
-
+            console.log('yyyyy');
              }).then(function() {
 
+                console.log('zzzzz');
                 response.success(currentUser.get('username'));
 
             }, function(error) {
