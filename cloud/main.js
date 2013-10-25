@@ -192,7 +192,8 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
                     console.log( '类型' +typeof (result) );
-                    console.log( '字典？' +typeof (result[0]) );
+                    console.log( '字典？' +typeof (result.Response) );
+                    console.log( '字典？!!!' +typeof (result.object) );
 //                    for (i in result)
 //                    {
 //                        console.log(i);
