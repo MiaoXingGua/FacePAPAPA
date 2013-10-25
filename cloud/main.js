@@ -191,7 +191,8 @@ var cloopenSignUp = function(request, response, user)
             parseString(httpResponse.text, function (error, result) {
                 if (result)
                 {
-                    console.log( typeof (result) );
+                    console.log( '类型' +typeof (result) );
+                    console.log( '字典？' +typeof (result[0]) );
 //                    for (i in result)
 //                    {
 //                        console.log(i);
