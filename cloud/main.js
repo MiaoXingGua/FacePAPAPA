@@ -170,7 +170,7 @@ var cloopenSignUp = function(request, response, user)
 // response.success('body:'+bodyxml);
 // response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
 //
-    console.log( '死u啊古代u闪光灯' );
+    console.log( '死闪光灯' );
     AV.Cloud.httpRequest({
         method: 'POST',
         url: 'https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase(),
