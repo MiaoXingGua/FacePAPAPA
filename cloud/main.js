@@ -166,9 +166,11 @@ var cloopen = function(request, response, username)
             console.log(httpResponse.text);
             console.log(username);
 
-            parseString(httpResponse.text+'<guid>'+username+'</guid>', function (error, result) {
+            var xml = httpResponse.text+'<guid>'+username+'</guid>';
 
-                response.success(responseDic);
+            parseString(xml, function (error, result) {
+
+                response.success(result);
             });
 
         },
