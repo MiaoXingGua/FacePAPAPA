@@ -216,7 +216,7 @@ var cloopenSignUp = function(request, response, user)
 
 var cloopen2avos = function(request, response, xmppInfo)
 {
-    console.log('username2=' + currentUser.get('username'));
+//    console.log('username2=' + currentUser.get('username'));
 
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
@@ -237,8 +237,8 @@ var cloopen2avos = function(request, response, xmppInfo)
             console.log('userInfo成功');
             console.log('username3=' + currentUser.get('username'));
 
-            user.set("userInfo",userInfo);
-            return user.save();
+            currentUser.set("userInfo",userInfo);
+            return currentUser.save();
 
             }).then(function() {
 
