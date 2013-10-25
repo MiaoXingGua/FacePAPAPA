@@ -64,42 +64,62 @@ var register = function(response,count,error)
     }
 }
 
+var password = "qweqwe123";
+
 //登录
 AV.Cloud.define('login', function(request, response) {
 
+    console.log('login');
     var username = request.params.username;
-    var password = "qweqwe123";
 
-    AV.User.logIn(username, password, {
-                  success: function(user) {
-                  // Do stuff after successful login.
-
-                      response.success(user);
-                  },
-                  error: function(user, error) {
-                  // The login failed. Check error to see why.
-                      response.error(error);
-                  }
-    });
+    register(username, response);
 });
+
+var login = function(username, response)
+{
+    AV.User.logIn(username, password, {
+        success: function(user) {
+            // Do stuff after successful login.
+
+            response.success(user);
+        },
+        error: function(user, error) {
+            // The login failed. Check error to see why.
+            response.error(error);
+        }
+    });
+}
+
+ParseUser currentUser = ParseUser.getCurrentUser();
 
 //更新头像
 AV.Cloud.define('uploadHeaderView', function(request, response) {
 
-    var base64 = request.params.headView;
-    var headViewFile = new AV.File("headView.png", { base64: base64 });
-    headViewFile.save().then(function() {
-                         // The file has been saved to AV.
+    if (currentUser)
+    {
+        // 允许用户使用应用
+        var base64 = request.params.headView;
+        var headViewFile = new AV.File("headView.png", { base64: base64 });
+        headViewFile.save().then(function() {
+            currentUser.headView = headViewFile;
+            return currentUser.save();
 
-                     }).then(function(){
+        }).then(function(){
+
+                response.success('success');
+
+            }, function(error) {
+
+                response.error(error);
+            });
+    }
+    else
+    {
+        //缓存用户对象为空时， 可打开用户注册界面…
+        response.error('请先登录');
+    }
 
 
-                        response.success('success');
-
-                     }, function(error) {
-                         // The file either could not be read, or could not be saved to AV.
-                         response.error(error);
-    });
 });
 
 //云通讯
@@ -124,12 +144,12 @@ AV.Cloud.define('cloopen', function(request, response)
 {
     var username = newGuid();
     console.log('cloopen');
-    var xml = '<AVOS><?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><SubAccount><dateCreated>2013-10-25 11:19:04</dateCreated><subAccountSid>8a2080ad41e4db7e0141ed9f561d0b68</subAccountSid><subToken>2b2144f47e2a4cc8826fbdefebc1280e</subToken><voipAccount>80391200000090</voipAccount><voipPwd>yY6ji8P2</voipPwd></SubAccount></Response><guid>9b50bc18-27f4-bb3d-1e19-ddbdf8dd3d23</guid></AVOS> '
-    parseString(xml, function (error, result) {
-
-        response.success(result);
-    });
-//    cloopen(request,response,username);
+//    var xml = '<AVOS><?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><SubAccount><dateCreated>2013-10-25 11:19:04</dateCreated><subAccountSid>8a2080ad41e4db7e0141ed9f561d0b68</subAccountSid><subToken>2b2144f47e2a4cc8826fbdefebc1280e</subToken><voipAccount>80391200000090</voipAccount><voipPwd>yY6ji8P2</voipPwd></SubAccount></Response><guid>9b50bc18-27f4-bb3d-1e19-ddbdf8dd3d23</guid></AVOS> '
+//    parseString(xml, function (error, result) {
+//
+//        response.success(result);
+//    });
+    cloopen(request,response,username);
 });
 
 
@@ -171,13 +191,20 @@ var cloopen = function(request, response, username)
 //            console.log(httpResponse.text);
 //            console.log(username);
 
-            var xml = httpResponse.text+'<AVOS><guid>'+username+'</guid></AVOS>';
+            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
 
             console.log(xml);
 
             parseString(xml, function (error, result) {
-
-                response.success(result);
+                if (result)
+                {
+                    response.success(result);
+                }
+                else
+                {
+                    console.error('Request failed with response code ' + httpResponse.text);
+                    response.error('Request failed with response code ' + error);
+                }
             });
 
         },
