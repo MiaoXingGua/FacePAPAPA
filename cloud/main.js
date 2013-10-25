@@ -236,6 +236,7 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.save().then(function(userInfo) {
 
             console.log('xxxxxx');
+            var currentUser = AV.User.current()
             var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
             currentUser.set("userInfo",userInfoId);
             return currentUser.save();
