@@ -227,30 +227,45 @@ var cloopen2avos = function(request, response, xmppInfo)
     {
 
         var userInfo = new UserInfo();
-        userInfo.set("user", currentUser);
+        userInfo.set("user", AV.Object.createWithoutData("_User", currentUser.id));
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
-        userInfo.save(null, {
-        success: function(userInfo) {
+        userInfo.save().then(function(userInfo) {
 
-            console.log('New object created1');
-            currentUser.set("userInfo",userInfo);
-            currentUser.save(null, {
-                success: function(currentUser) {
-                    console.log('New object created2');
-                    response.success(currentUser.get('username'));
-                },
-                error: function(currentUser, error) {
+            currentUser.set("userInfo",AV.Object.createWithoutData("UserInfo", userInfo.id));
+            return currentUser.save();
 
-                    response.error('Request failed with response code ' + error.description);
-                }});
-        },
-        error: function(userInfo, error) {
+             }).then(function() {
 
-            alert('Failed to create new object, with error code: ' + error.description);
-        }});
+                response.success(currentUser.get('username'));
+
+            }, function(error) {
+
+                console.error(error);zaz
+                response.error(error);
+
+            });
+//        userInfo.save(null, {
+//        success: function(userInfo) {
+//
+//            console.log('New object created1');
+//            currentUser.set("userInfo",userInfo);
+//            currentUser.save(null, {
+//                success: function(currentUser) {
+//                    console.log('New object created2');
+//                    response.success(currentUser.get('username'));
+//                },
+//                error: function(currentUser, error) {
+//
+//                    response.error('Request failed with response code ' + error.description);
+//                }});
+//        },
+//        error: function(userInfo, error) {
+//
+//            alert('Failed to create new object, with error code: ' + error.description);
+//        }});
 
     }
     else
