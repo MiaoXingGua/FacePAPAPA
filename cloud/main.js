@@ -124,7 +124,7 @@ AV.Cloud.define('cloopen', function(request, response)
 {
     var username = newGuid();
     console.log('cloopen');
-    var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><SubAccount><dateCreated>2013-10-25 11:19:04</dateCreated><subAccountSid>8a2080ad41e4db7e0141ed9f561d0b68</subAccountSid><subToken>2b2144f47e2a4cc8826fbdefebc1280e</subToken><voipAccount>80391200000090</voipAccount><voipPwd>yY6ji8P2</voipPwd></SubAccount></Response><AVOS><guid>9b50bc18-27f4-bb3d-1e19-ddbdf8dd3d23</guid></AVOS> '
+    var xml = '<AVOS><?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><SubAccount><dateCreated>2013-10-25 11:19:04</dateCreated><subAccountSid>8a2080ad41e4db7e0141ed9f561d0b68</subAccountSid><subToken>2b2144f47e2a4cc8826fbdefebc1280e</subToken><voipAccount>80391200000090</voipAccount><voipPwd>yY6ji8P2</voipPwd></SubAccount></Response><guid>9b50bc18-27f4-bb3d-1e19-ddbdf8dd3d23</guid></AVOS> '
     parseString(xml, function (error, result) {
 
         response.success(result);
