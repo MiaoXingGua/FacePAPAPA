@@ -4,7 +4,7 @@
 
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
-AV.Cloud.useMasterKey();
+var userMasterKey = AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
     console.log('hello');
@@ -28,6 +28,7 @@ function newGuid()
 AV.Cloud.define('register', function(request, response) {
 
     console.log('注册');
+    userMasterKey;
     register(request,response,10,null);
 
 });
