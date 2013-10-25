@@ -89,11 +89,12 @@ var login = function(username, response)
     });
 }
 
-ParseUser currentUser = ParseUser.getCurrentUser();
+
 
 //更新头像
 AV.Cloud.define('uploadHeaderView', function(request, response) {
 
+    ParseUser currentUser = ParseUser.getCurrentUser();
     if (currentUser)
     {
         // 允许用户使用应用
