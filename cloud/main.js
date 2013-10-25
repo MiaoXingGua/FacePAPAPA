@@ -171,7 +171,6 @@ var cloopenSignUp = function(request, response, user)
 // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
 // response.success('body:'+bodyxml);
 // response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
-//
 
     AV.Cloud.httpRequest({
         method: 'POST',
@@ -194,7 +193,7 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    cloopen2avos(request, response, user,result);
+                    cloopen2avos(request, response, result);
                 }
                 else
                 {
@@ -212,39 +211,33 @@ var cloopenSignUp = function(request, response, user)
     });
 }
 
-var cloopen2avos = function(request, response, user, xmppInfo)
+var cloopen2avos = function(request, response, xmppInfo)
 {
-    console.dic(user);
+    console.dic(currentUser);
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
     var voipPwd = xmppInfo.Response.SubAccount[0].voipPwd[0];
 
-//    console.log('subAccountSid  :  '+subAccountSid);
-//    console.log('subToken  :  '+subToken);
-//    console.log('voipAccount  :  '+voipAccount);
-//    console.log('voipPwd  :  '+voipPwd);
-
     if (subAccountSid && subToken && voipAccount && voipPwd)
     {
 
-
         var userInfo = new UserInfo();
-        userInfo.set("user", user);
+        userInfo.set("user", currentUser);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
-        userInfo.save().then(function(user, userInfo) {
+        userInfo.save().then(function(userInfo) {
 
             console.log('userInfo成功');
-            user.set("userInfo",userInfo);
-            return user.save();
+            currentUser.set("userInfo",userInfo);
+            return currentUser.save();
 
             }).then(function(user) {
 
-                console.log(user.get('username'));
-                response.success(user.get('username'));
+                console.log(currentUser.get('username'));
+                response.success(currentUser.get('username'));
 
             }, function(error) {
 
@@ -258,5 +251,4 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         console.error('Request failed with response code ' + xmppInfo);
         response.error('Request failed with response code ' + xmppInfo);
     }
-
 }
