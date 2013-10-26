@@ -196,7 +196,7 @@ var cloopenSignUp = function(request, response, user)
                 {
 //                    console.log( '类型' +typeof (result) );
 
-                    cloopen2avos(request, response, result);
+                    cloopen2avos(request, response, user, result);
                 }
                 else
                 {
@@ -214,7 +214,7 @@ var cloopenSignUp = function(request, response, user)
     });
 }
 
-var cloopen2avos = function(request, response, xmppInfo)
+var cloopen2avos = function(request, response, user, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
     ;
@@ -227,7 +227,7 @@ var cloopen2avos = function(request, response, xmppInfo)
     {
 
         var userInfo = new UserInfo();
-        var userId = AV.Object.createWithoutData("_User", currentUser.id);
+        var userId = AV.Object.createWithoutData("_User", user.id);
         userInfo.set("user", userId);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
@@ -235,8 +235,8 @@ var cloopen2avos = function(request, response, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
-            console.log('xxxxxx');
-            var currentUser = AV.User.current()
+
+            var currentUser = AV.User.current();
             var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
             currentUser.set("userInfo",userInfoId);
             return currentUser.save();
@@ -244,6 +244,7 @@ var cloopen2avos = function(request, response, xmppInfo)
              }).then(function(response,currentUser) {
 
                 console.log('zzzzz');
+                console.log(currentUser.get('username'));
                 response.success(currentUser.get('username'));
 
             }, function(response,error) {
