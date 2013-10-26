@@ -241,6 +241,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
              }).then(function(response,user) {
 
                 console.log('zzzzz');
+                console.log(user);
                 console.log(user.get('username'));
                 response.success(user.get('username'));
 
