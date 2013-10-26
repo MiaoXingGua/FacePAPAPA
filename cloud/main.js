@@ -225,7 +225,6 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
     if (subAccountSid && subToken && voipAccount && voipPwd)
     {
-
         var userInfo = new UserInfo();
         var userId = AV.Object.createWithoutData("_User", user.id);
         userInfo.set("user", userId);
@@ -235,17 +234,15 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
-
-            var currentUser = AV.User.current();
             var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
-            currentUser.set("userInfo",userInfoId);
-            return currentUser.save();
+            user.set("userInfo",userInfoId);
+            return user.save();
 
-             }).then(function(response,currentUser) {
+             }).then(function(response,user) {
 
                 console.log('zzzzz');
-                console.log(currentUser.get('username'));
-                response.success(currentUser.get('username'));
+                console.log(user.get('username'));
+                response.success(user.get('username'));
 
             }, function(response,error) {
 
