@@ -241,12 +241,12 @@ var cloopen2avos = function(request, response, xmppInfo)
             currentUser.set("userInfo",userInfoId);
             return currentUser.save();
 
-             }).then(function(currentUser) {
+             }).then(function(response,currentUser) {
 
                 console.log('zzzzz');
                 response.success(currentUser.get('username'));
 
-            }, function(error) {
+            }, function(response,error) {
 
                 console.error(error);
                 response.error(error);
