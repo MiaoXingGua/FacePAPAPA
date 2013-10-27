@@ -4,7 +4,7 @@
 
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
-var User = AV.Object.extend("_User");
+var User = AV.User;
 //var userMasterKey = AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
@@ -53,12 +53,29 @@ var register = function(request,response,count,error)
                 //注册云通信
 //                console.log('username=' + user.get('username'));
 //                console.log('objectId=' + user.get('objectId'));
-                console.log('objectId=' +user.get('objectId'));
-                var currentUser = AV.User.current();
-                console.log('currentUserObjectId=' +currentUser.get('objectId'));
+//                console.log('objectId=' +user.get('objectId'));
+//                var currentUser = AV.User.current();
+//                console.log('currentUserObjectId=' +currentUser.get('objectId'));
 //                console.log(user.get('objectId'));
 
-                cloopenSignUp(request, response, user);
+                var query = new AV.Query(User);
+                query.equalTo("username", username);
+//                query.include(['']);
+                query.get("", {
+                    success: function(results) {
+                        console.log('results'+results.get('objectId'));
+                        console.log('results'+results.get('username'));
+                        alert("Everything went fine!");
+                        cloopenSignUp(request, response, results);
+                    },
+                    error: function(model, error) {
+
+                        if (error.code === AV.Error.OBJECT_NOT_FOUND) {
+                            alert("Uh oh, we couldn't find the object!");
+                        }
+                    }
+                });
+
             },
             error: function(user, error) {
 
