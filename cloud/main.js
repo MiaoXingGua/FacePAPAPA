@@ -123,7 +123,7 @@ var login = function(request, response)
     });
 }
 
-var currentUser = AV.User.current();
+
 
 //更新头像
 AV.Cloud.define('test1', function(request, response) {
