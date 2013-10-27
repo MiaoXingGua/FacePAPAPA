@@ -275,6 +275,22 @@ var cloopen2avos = function(request, response, user, xmppInfo)
                 dict.Add('voipAccount',voipAccount);
                 dict.Add('voipPwd',voipPwd);
 
+                parse(dict, function (error, result) {
+//                console.log('username1=' + currentUser.get('username'));
+                    if (result)
+                    {
+//
+                        console.log('result' +result);
+
+//                        cloopen2avos(request, response, user, result);
+                    }
+                    else
+                    {
+//                        console.error('Request failed with response code ' + httpResponse.text);
+//                        response.error('Request failed with response code ' + error);
+                    }
+                });
+
                 response.success(dict);
 
             }, function(response,error) {
