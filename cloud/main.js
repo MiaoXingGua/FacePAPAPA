@@ -268,12 +268,14 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
                 console.log('zzz='+user.id);
 
-                var dict = new Dictionary();
-                dict.Add('guid',user.get('username'));
-                dict.Add('subAccountSid',subAccountSid);
-                dict.Add('subToken',subToken);
-                dict.Add('voipAccount',voipAccount);
-                dict.Add('voipPwd',voipPwd);
+//                var dict = new Dictionary();
+//                dict.Add('guid',user.get('username'));
+//                dict.Add('subAccountSid',subAccountSid);
+//                dict.Add('subToken',subToken);
+//                dict.Add('voipAccount',voipAccount);
+//                dict.Add('voipPwd',voipPwd);
+
+                var dict = {'guid':user.get('username'),'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
 
                 console.dir(dict);
                 console.log('dict2='+dict.toString());
