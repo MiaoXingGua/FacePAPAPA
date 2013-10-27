@@ -51,10 +51,10 @@ var register = function(request,response,count,error)
         user.signUp(null, {
             success: function(user) {
 
-                console.log('userid'+user.id);
+                console.log('userid='+user.id);
                 //注册云通信
                 cloopenSignUp(request, response, user);
-
+                test(user);
             },
             error: function(user, error) {
 
@@ -63,6 +63,12 @@ var register = function(request,response,count,error)
         });
     }
 }
+
+var test = function(user)
+{
+    console.log('userid2='+user.id);
+}
+
 var getUser = function()
 {
 
