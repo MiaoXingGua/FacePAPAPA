@@ -89,24 +89,35 @@ var password = "qweqwe123";
 //登录
 AV.Cloud.define('login', function(request, response) {
 
-    console.log('login');
-    var username = request.params.username;
+    console.log('登录');
 
-    register(username, response);
-
-
+    login(request, response);
 });
 
-var login = function(username, response)
+var login = function(request, response)
 {
+    var username = request.params.guid;
     AV.User.logIn(username, password, {
         success: function(user) {
-            // Do stuff after successful login.
 
-            response.success(user);
+            var query = new AV.Query(UserInfo);
+            var userId = AV.Object.createWithoutData("_User", user.id);
+            query.equalTo('user', userId);
+            query.first().then(function(userInfo) {
+
+                userInfo.fetch();
+
+                var dict = {'guid':user.get('username'),'subAccountSid':userInfo.get('subAccountSid'),'subToken':userInfo.get('subToken'),'voipAccount':userInfo.get('voipAccount'),'voipPwd':userInfo.get('voipPwd')};
+
+                response.success(dict);
+
+            }).then(function(result) {
+
+            });
+
         },
         error: function(user, error) {
-            // The login failed. Check error to see why.
+
             response.error(error);
         }
     });
@@ -170,8 +181,8 @@ var parse = require('xml2js').Parser();
 //注册云通讯
 var cloopenSignUp = function(request, response, user)
 {
-    console.log('注册云通讯');
-    console.log('注册云通讯' +user.id);
+//    console.log('注册云通讯');
+//    console.log('注册云通讯' +user.id);
 
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
@@ -213,19 +224,19 @@ var cloopenSignUp = function(request, response, user)
 //            console.log(xml);
 
 //            console.log('username0=' +currentUser.get('username'));
-            console.log('注册云通讯1' +user.id);
+//            console.log('注册云通讯1' +user.id);
             parseString(httpResponse.text, function (error, result) {
 //                console.log('username1=' + currentUser.get('username'));
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    console.log('注册云通讯2' +user.id);
+//                    console.log('注册云通讯2' +user.id);
 
                     cloopen2avos(request, response, user, result);
                 }
                 else
                 {
-                    console.error('Request failed with response code ' + httpResponse.text);
+//                    console.error('Request failed with response code ' + httpResponse.text);
                     response.error('Request failed with response code ' + error);
                 }
             });
@@ -242,7 +253,7 @@ var cloopenSignUp = function(request, response, user)
 var cloopen2avos = function(request, response, user, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
-    console.log('ssss=' + user.id);
+//    console.log('ssss=' + user.id);
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -259,14 +270,14 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("voipPwd", voipPwd);
         userInfo.save().then(function(userInfo) {
 
-            console.log('xxxxxxx='+userInfo.id);
+//            console.log('xxxxxxx='+userInfo.id);
             var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
             user.set("userInfo",userInfoId);
             return user.save();
 
              }).then(function(user) {
 
-                console.log('zzz='+user.id);
+//                console.log('zzz='+user.id);
 
 //                var dict = new Dictionary();
 //                dict.Add('guid',user.get('username'));
@@ -277,9 +288,8 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
                 var dict = {'guid':user.get('username'),'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
 
-                console.dir(dict);
-                console.log('dict2='+dict.toString());
-
+//                console.dir(dict);
+//                console.log('dict2='+dict.toString());
 
                 response.success(dict);
 
@@ -289,26 +299,6 @@ var cloopen2avos = function(request, response, user, xmppInfo)
                 response.error(error);
 
             });
-//        userInfo.save(null, {
-//        success: function(userInfo) {
-//
-//            console.log('New object created1');
-//            currentUser.set("userInfo",userInfo);
-//            currentUser.save(null, {
-//                success: function(currentUser) {
-//                    console.log('New object created2');
-//                    response.success(currentUser.get('username'));
-//                },
-//                error: function(currentUser, error) {
-//
-//                    response.error('Request failed with response code ' + error.description);
-//                }});
-//        },
-//        error: function(userInfo, error) {
-//
-//            alert('Failed to create new object, with error code: ' + error.description);
-//        }});
-
     }
     else
     {
@@ -316,22 +306,3 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         response.error('Request failed with response code ' + xmppInfo);
     }
 }
-
-
-//userInfo.save().then(function(userInfo) {
-//
-//    currentUser.set("userInfo",userInfo);
-//    return currentUser.save();
-//
-//}).then(function() {
-//
-//        console.log('username4=' + currentUser.get('username'));
-//
-//        response.success(currentUser.get('username'));
-//
-//    }, function(error) {
-//
-//        console.error(error);
-//        response.error(error);
-//
-//    });
