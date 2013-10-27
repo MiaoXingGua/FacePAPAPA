@@ -275,7 +275,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
                 dict.Add('voipAccount',voipAccount);
                 dict.Add('voipPwd',voipPwd);
 
-                response.success(dict.ToString());
+                response.success(dict);
 
             }, function(response,error) {
 
