@@ -5,6 +5,7 @@
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
 var User = AV.User;
+var password = "qweqwe123";
 //var userMasterKey = AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
@@ -64,28 +65,6 @@ var register = function(request,response,count,error)
     }
 }
 
-var test = function(user)
-{
-    console.log('userid2='+user.id);
-}
-
-var getUser = function()
-{
-
-    var user = new AV.Query(User);
-    query.get("520ca0bbe4b07e8e0e847e31", {
-        success: function(gameScore) {
-            // The object was retrieved successfully.
-        },
-        error: function(object, error) {
-            // The object was not retrieved successfully.
-            // error is a AV.Error with an error code and description.
-        }
-    });
-}
-
-var password = "qweqwe123";
-
 //登录
 AV.Cloud.define('login', function(request, response) {
 
@@ -124,45 +103,50 @@ var login = function(request, response)
 }
 
 
-
 //更新头像
-AV.Cloud.define('test1', function(request, response) {
+AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像2');
-    var currentUser = AV.User.current();
-    if (currentUser)
-    {
-        // 允许用户使用应用
-        console.log('更新头像2');
-        var base64 = request.params.headView;
-        var headViewFile = new AV.File("headView.png", { base64: base64 });
-        headViewFile.save().then(function() {
-            console.log('更新头像2');
-            currentUser.headView = headViewFile;
-            return currentUser.save();
-
-        }).then(function(){
-
-                response.success('success');
-
-            }, function(error) {
-
-                response.error(error);
-            });
-    }
-    else
-    {
-        //缓存用户对象为空时， 可打开用户注册界面…
-        response.error('请先登录');
-    }
+//    var currentUser = AV.User.current();
+//    if (currentUser)
+//    {
+//        // 允许用户使用应用
+//        console.log('更新头像2');
+//        var base64 = request.params.headView;
+//        var headViewFile = new AV.File("headView.png", { base64: base64 });
+//        headViewFile.save().then(function() {
+//            console.log('更新头像2');
+//            currentUser.headView = headViewFile;
+//            return currentUser.save();
+//
+//        }).then(function(){
+//
+//                response.success('success');
+//
+//            }, function(error) {
+//
+//                response.error(error);
+//            });
+//    }
+//    else
+//    {
+//        //缓存用户对象为空时， 可打开用户注册界面…
+//        response.error('请先登录');
+//    }
 });
+
+var uploadHeadView = function(base64, response)
+{
+
+}
 
 //云通讯
 var crypto = require('crypto');
 var moment = require('moment');
 var Buffer = require('buffer').Buffer;
 
-function md5 (text) {
+function md5 (text)
+{
 
     return crypto.createHash('md5').update(text).digest('hex');
 };
