@@ -52,8 +52,8 @@ var register = function(request,response,count,error)
                 //注册云通信
 //                console.log('username=' + user.get('username'));
 //                console.log('objectId=' + user.get('objectId'));
-                console.log(user.get('username'));
-                console.log(user.get('id'));
+                console.log(user.get('username=' +'username'));
+                console.log(user.get('objectId');
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
@@ -151,7 +151,7 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-    console.log(user.get('id'));
+    console.log('注册云通讯' +user.get('objectId'));
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -197,7 +197,7 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    console.log(user.get('id'));
+                    console.log('类型' +user.get('objectId'));
                     cloopen2avos(request, response, user, result);
                 }
                 else
@@ -219,7 +219,7 @@ var cloopenSignUp = function(request, response, user)
 var cloopen2avos = function(request, response, user, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
-    console.log(user.get('id'));
+    console.log('ssss' + user.get('objectId'));
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -244,7 +244,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
                 console.log('zzzzz');
                 console.log(user);
-                console.log(user.get('id'));
+                console.log('zzz'+user.get('objectId'));
                 response.success(user.get('username'));
 
             }, function(response,error) {
