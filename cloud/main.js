@@ -264,10 +264,10 @@ var cloopen2avos = function(request, response, user, xmppInfo)
             user.set("userInfo",userInfoId);
             return user.save();
 
-             }).then(function(response,user) {
+             }).then(function(user) {
 
                 console.log('zzz='+user.id);
-                response.success(user.id);
+                response.success(user.get('username'),subAccountSid,subToken,voipAccount,voipPwd);
 
             }, function(response,error) {
 
