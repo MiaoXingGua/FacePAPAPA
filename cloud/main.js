@@ -52,6 +52,7 @@ var register = function(request,response,count,error)
                 //注册云通信
 //                console.log('username=' + user.get('username'));
 //                console.log('objectId=' + user.get('objectId'));
+                console.log(user.get('username'));
                 console.log(user.get('id'));
                 cloopenSignUp(request, response, user);
             },
