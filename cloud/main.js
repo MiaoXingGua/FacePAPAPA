@@ -53,7 +53,7 @@ var register = function(request,response,count,error)
 //                console.log('username=' + user.get('username'));
 //                console.log('objectId=' + user.get('objectId'));
                 console.log('username=' +user.get('username'));
-                console.log(user.get('objectId');
+                console.log(user.get('objectId'));
                 cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
