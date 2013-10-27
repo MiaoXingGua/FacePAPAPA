@@ -50,31 +50,10 @@ var register = function(request,response,count,error)
 
         user.signUp(null, {
             success: function(user) {
+
+                console.log('userid'+user.id);
                 //注册云通信
-//                console.log('username=' + user.get('username'));
-//                console.log('objectId=' + user.get('objectId'));
-//                console.log('objectId=' +user.get('objectId'));
-//                var currentUser = AV.User.current();
-//                console.log('currentUserObjectId=' +currentUser.get('objectId'));
-//                console.log(user.get('objectId'));
-
-                var query = new AV.Query(User);
-                query.equalTo("username", username);
-//                query.include(['']);
-                query.get("", {
-                    success: function(results) {
-                        console.log('results'+results.get('objectId'));
-                        console.log('results'+results.get('username'));
-                        alert("Everything went fine!");
-                        cloopenSignUp(request, response, results);
-                    },
-                    error: function(model, error) {
-
-                        if (error.code === AV.Error.OBJECT_NOT_FOUND) {
-                            alert("Uh oh, we couldn't find the object!");
-                        }
-                    }
-                });
+                cloopenSignUp(request, response, user);
 
             },
             error: function(user, error) {
@@ -186,7 +165,7 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-    console.log('注册云通讯' +user.get('objectId'));
+    console.log('注册云通讯' +user.get('id'));
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -227,12 +206,14 @@ var cloopenSignUp = function(request, response, user)
 //            console.log(xml);
 
 //            console.log('username0=' +currentUser.get('username'));
+            console.log('注册云通讯1' +user.get('id'));
             parseString(httpResponse.text, function (error, result) {
 //                console.log('username1=' + currentUser.get('username'));
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    console.log('类型' +user.get('objectId'));
+                    console.log('注册云通讯2' +user.get('id'));
+
                     cloopen2avos(request, response, user, result);
                 }
                 else
