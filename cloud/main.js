@@ -171,7 +171,8 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-    console.log('注册云通讯' +user.get('id'));
+    console.log('注册云通讯' +user.id);
+
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -212,13 +213,13 @@ var cloopenSignUp = function(request, response, user)
 //            console.log(xml);
 
 //            console.log('username0=' +currentUser.get('username'));
-            console.log('注册云通讯1' +user.get('id'));
+            console.log('注册云通讯1' +user.id);
             parseString(httpResponse.text, function (error, result) {
 //                console.log('username1=' + currentUser.get('username'));
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-                    console.log('注册云通讯2' +user.get('id'));
+                    console.log('注册云通讯2' +user.id);
 
                     cloopen2avos(request, response, user, result);
                 }
@@ -241,7 +242,7 @@ var cloopenSignUp = function(request, response, user)
 var cloopen2avos = function(request, response, user, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
-    console.log('ssss' + user.get('objectId'));
+    console.log('ssss=' + user.id);
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -266,8 +267,8 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
                 console.log('zzzzz');
                 console.log(user);
-                console.log('zzz'+user.get('objectId'));
-                response.success(user.get('username'));
+                console.log('zzz='+userid);
+                response.success(user.id);
 
             }, function(response,error) {
 
