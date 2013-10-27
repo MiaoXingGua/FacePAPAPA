@@ -126,7 +126,7 @@ var login = function(request, response)
 var currentUser = AV.User.current();
 
 //更新头像
-AV.Cloud.define('uploadHeaderView', function(request, response) {
+AV.Cloud.define('test1', function(request, response) {
 
     console.log('更新头像2');
     var currentUser = AV.User.current();
