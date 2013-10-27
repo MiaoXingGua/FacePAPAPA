@@ -149,7 +149,7 @@ var parse = require('xml2js').Parser();
 var cloopenSignUp = function(request, response, user)
 {
     console.log('注册云通讯');
-
+    console.log(user.get('id'));
     var timeStr = moment().format('YYYYMMDDHHmmss');
 //    console.log('timestr:' + timeStr);
 
@@ -195,7 +195,7 @@ var cloopenSignUp = function(request, response, user)
                 if (result)
                 {
 //                    console.log( '类型' +typeof (result) );
-
+                    console.log(user.get('id'));
                     cloopen2avos(request, response, user, result);
                 }
                 else
