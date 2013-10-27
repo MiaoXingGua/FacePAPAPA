@@ -267,7 +267,15 @@ var cloopen2avos = function(request, response, user, xmppInfo)
              }).then(function(user) {
 
                 console.log('zzz='+user.id);
-                response.success(user.get('username'),subAccountSid,subToken,voipAccount,voipPwd);
+
+                var dict = new Dictionary();
+                dict.Add('guid',user.get('username'));
+                dict.Add('subAccountSid',subAccountSid);
+                dict.Add('subToken',subToken);
+                dict.Add('voipAccount',voipAccount);
+                dict.Add('voipPwd',voipPwd);
+
+                response.success(dict.ToString());
 
             }, function(response,error) {
 
