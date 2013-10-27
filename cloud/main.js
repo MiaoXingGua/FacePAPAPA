@@ -131,9 +131,11 @@ AV.Cloud.define('uploadHeaderView', function(request, response) {
     if (currentUser)
     {
         // 允许用户使用应用
+        console.log('更新头像2');
         var base64 = request.params.headView;
         var headViewFile = new AV.File("headView.png", { base64: base64 });
         headViewFile.save().then(function() {
+            console.log('更新头像2');
             currentUser.headView = headViewFile;
             return currentUser.save();
 
