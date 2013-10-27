@@ -4,7 +4,8 @@
 
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
-var userMasterKey = AV.Cloud.useMasterKey();
+var User = AV.Object.extend("_User");
+//var userMasterKey = AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
     console.log('hello');
@@ -53,6 +54,8 @@ var register = function(request,response,count,error)
 //                console.log('username=' + user.get('username'));
 //                console.log('objectId=' + user.get('objectId'));
                 console.log('objectId=' +user.get('objectId'));
+                var currentUser = AV.User.current();
+                console.log('currentUserObjectId=' +currentUser.get('objectId'));
 //                console.log(user.get('objectId'));
 
                 cloopenSignUp(request, response, user);
@@ -63,6 +66,20 @@ var register = function(request,response,count,error)
             }
         });
     }
+}
+var getUser = function()
+{
+
+    var user = new AV.Query(User);
+    query.get("520ca0bbe4b07e8e0e847e31", {
+        success: function(gameScore) {
+            // The object was retrieved successfully.
+        },
+        error: function(object, error) {
+            // The object was not retrieved successfully.
+            // error is a AV.Error with an error code and description.
+        }
+    });
 }
 
 var password = "qweqwe123";
