@@ -102,11 +102,15 @@ var login = function(request, response)
     });
 }
 
-
-//更新头像
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
-    console.log('更新头像2');
+    console.log('更新头像');
+
+});
+//更新头像
+//AV.Cloud.define('uploadHeadView', function(request, response) {
+//
+//    console.log('更新头像2');
 //    var currentUser = AV.User.current();
 //    if (currentUser)
 //    {
@@ -133,7 +137,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 //        //缓存用户对象为空时， 可打开用户注册界面…
 //        response.error('请先登录');
 //    }
-});
+//});
 
 var uploadHeadView = function(base64, response)
 {
