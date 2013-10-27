@@ -128,6 +128,7 @@ var currentUser = AV.User.current();
 //更新头像
 AV.Cloud.define('uploadHeaderView', function(request, response) {
 
+    var currentUser = AV.User.current();
     if (currentUser)
     {
         // 允许用户使用应用
