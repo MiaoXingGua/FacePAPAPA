@@ -39,7 +39,12 @@ var register = function(request,response,count,error)
 {
     if (count<=0) response.error(error);
 
-    var username = newGuid();
+    var username = request.params.guid;
+    if (!username)
+    {
+        username = newGuid();
+    }
+
     var email = username + "@qq.com";
 
     if (username && password && email)
