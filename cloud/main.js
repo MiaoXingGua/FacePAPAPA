@@ -105,7 +105,7 @@ var uploadHeadView = function(request, response)
     if (user)
     {
         // 允许用户使用应用
-        console.log('更新头像2');
+        console.log('更新头像1');
         var base64 = request.params.headView;
         var headViewFile = new AV.File("headView.png", { base64: base64 });
         headViewFile.save().then(function() {
@@ -117,11 +117,13 @@ var uploadHeadView = function(request, response)
 
         }).then(function(){
 
-        response.success('success');
+                console.log('更新头像3');
+             response.success('success');
 
          }, function(error) {
 
-        response.error(error);
+                console.log('更新头像4');
+             response.error(error);
          });
     }
     else
