@@ -90,7 +90,7 @@ var login = function(request, response)
             query.first().then(function(userInfo) {
 
                 userInfo.fetch();
-
+                console.log('登录成功');
                 var dict = {'guid':user.get('username'),'subAccountSid':userInfo.get('subAccountSid'),'subToken':userInfo.get('subToken'),'voipAccount':userInfo.get('voipAccount'),'voipPwd':userInfo.get('voipPwd')};
 
                 response.success(dict);
@@ -117,7 +117,8 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像2');
 //    var currentUser = AV.User.current();
-    if (request.user)
+    var user = request.user;
+    if (user)
     {
         // 允许用户使用应用
         console.log('更新头像2');
@@ -126,8 +127,9 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
         headViewFile.save().then(function() {
 
             console.log('更新头像2');
-            currentUser.headView = headViewFile;
-            return currentUser.save();
+            user.headView = headViewFile;
+            user.relation('album').add(headViewFile);
+            return user.save();
 
         }).then(function(){
 
