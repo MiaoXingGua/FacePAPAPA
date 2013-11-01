@@ -4,6 +4,7 @@
 
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
+var UserRelation = AV.Object.extend("UserRelation");
 var User = AV.User;
 var password = "qweqwe123";
 //var userMasterKey = AV.Cloud.useMasterKey();
@@ -57,10 +58,24 @@ var register = function(request,response,count,error)
         user.signUp(null, {
             success: function(user) {
 
-//                console.log('userid='+user.id);
-                //注册云通信
-                cloopenSignUp(request, response, user);
-//                test(user);
+                //创建用户关系
+                var userRelation = new UserRelation();
+                userRelation.save().then(function(userRelation) {
+
+                    var userRelationId = AV.Object.createWithoutData("UserRelation", userRelation.id);
+                    user.set("userRelation",userRelationId);
+                    return user.save();
+
+                }).then(function(user) {
+
+                        //注册云通信
+                        cloopenSignUp(request, response, user);
+
+                }, function(response,error) {
+
+                        response.error(error);
+
+                });
             },
             error: function(user, error) {
 
@@ -68,43 +83,6 @@ var register = function(request,response,count,error)
             }
         });
     }
-}
-
-//登录
-AV.Cloud.define('login', function(request, response) {
-
-    console.log('登录');
-
-    login(request, response);
-});
-
-var login = function(request, response)
-{
-    var username = request.params.guid;
-    AV.User.logIn(username, password, {
-        success: function(user) {
-
-            var query = new AV.Query(UserInfo);
-            var userId = AV.Object.createWithoutData("_User", user.id);
-            query.equalTo('user', userId);
-            query.first().then(function(userInfo) {
-
-                userInfo.fetch();
-                console.log('登录成功');
-                var dict = {'guid':user.get('username'),'subAccountSid':userInfo.get('subAccountSid'),'subToken':userInfo.get('subToken'),'voipAccount':userInfo.get('voipAccount'),'voipPwd':userInfo.get('voipPwd')};
-
-                response.success(dict);
-
-            }).then(function(result) {
-
-            });
-
-        },
-        error: function(user, error) {
-
-            response.error(error);
-        }
-    });
 }
 
 
@@ -164,6 +142,7 @@ var addFriend = function(request, response)
         // 允许用户使用应用
         var friend = request.params.friend;
 
+        var userRelation = user.userRelation;
 
         var relation = user.relation('userRelation');
 
