@@ -153,12 +153,65 @@ AV.Cloud.define('addFriend', function(request, response) {
 
     console.log('加好友');
     addFriend(request, response);
-
 });
 
 var addFriend = function(request, response)
 {
 
+    var user = request.user;
+    if (user)
+    {
+        // 允许用户使用应用
+        var friend = request.params.friend;
+
+
+        var relation = user.relation('userRelation');
+
+        relation.query().get(friend.id,  {
+
+        success: function(friend) {
+
+            if (friend)
+            {
+                response.error('好友已经存在');
+            }
+            else
+            {
+                var friendId = AV.Object.createWithoutData("_User", friend.id);
+                relation.add(friendId);
+                relation.save();
+            }
+        },
+        error: function(object, error) {
+
+        }
+    });
+
+
+        headViewFile.save().then(function() {
+
+            console.log('更新头像2');
+
+
+
+            user.headView = headViewFile;
+            user.relation('album').add(headViewFile);
+            return user.save();
+
+        }).then(function(){
+
+                response.success('success');
+
+            }, function(error) {
+
+                response.error(error);
+            });
+    }
+    else
+    {
+        //缓存用户对象为空时， 可打开用户注册界面…
+        response.error('请先登录');
+    }
 }
 
 
@@ -296,7 +349,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 //                dict.Add('voipAccount',voipAccount);
 //                dict.Add('voipPwd',voipPwd);
 
-                var dict = {'guid':user.get('username'),'password':password,subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
+                var dict = {'guid':user.get('username'),'password':password,'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
 
 //                console.dir(dict);
 //                console.log('dict2='+dict.toString());
