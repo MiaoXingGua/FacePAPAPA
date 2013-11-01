@@ -112,8 +112,8 @@ var uploadHeadView = function(request, response)
 
             console.log('更新头像2');
             user.headView = headViewFile;
-//            var album = user.relation("album");
-//            album.add(headViewFile);
+//            var album = user.get('album');
+            user.addUnique('album',headViewFile);
 //            user.relation('album').add(headViewFile);
             return user.save();
 
