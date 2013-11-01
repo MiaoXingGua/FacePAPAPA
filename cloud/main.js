@@ -25,7 +25,7 @@ function newGuid()
     }
     return guid;
 }
-
+      //addFriend
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
