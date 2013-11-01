@@ -120,7 +120,7 @@ var uploadHeadView = function(request, response)
         }).then(function(headViewFile){
 
                 console.log('更新头像3');
-             response.success(headViewFile.url());
+             response.success('success');
 
          }, function(error) {
 
