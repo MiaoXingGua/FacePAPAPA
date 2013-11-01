@@ -112,7 +112,7 @@ var uploadHeadView = function(request, response)
 
             console.log('更新头像2');
             user.headView = headViewFile;
-            user.relation('album').add(headViewFile);
+//            user.relation('album').add(headViewFile);
             return user.save();
 
         }).then(function(){
