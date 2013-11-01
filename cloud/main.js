@@ -296,7 +296,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 //                dict.Add('voipAccount',voipAccount);
 //                dict.Add('voipPwd',voipPwd);
 
-                var dict = {'guid':user.get('username'),'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
+                var dict = {'guid':user.get('username'),'password':password,subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
 
 //                console.dir(dict);
 //                console.log('dict2='+dict.toString());
