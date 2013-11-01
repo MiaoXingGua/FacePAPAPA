@@ -25,7 +25,7 @@ function newGuid()
     }
     return guid;
 }
-      //addFriend
+
 //全新注册
 AV.Cloud.define('register', function(request, response) {
 
@@ -107,16 +107,17 @@ var login = function(request, response)
     });
 }
 
-//AV.Cloud.define('uploadHeadView', function(request, response) {
-//
-//    console.log('更新头像');
-//
-//});
+
 //更新头像
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像2');
-//    var currentUser = AV.User.current();
+    uploadHeadView(request, response);
+
+});
+
+var uploadHeadView = function(request, response)
+{
     var user = request.user;
     if (user)
     {
@@ -133,24 +134,33 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 
         }).then(function(){
 
-                response.success('success');
+        response.success('success');
 
-            }, function(error) {
+         }, function(error) {
 
-                response.error(error);
-            });
+        response.error(error);
+         });
     }
     else
     {
         //缓存用户对象为空时， 可打开用户注册界面…
         response.error('请先登录');
     }
+}
+
+
+AV.Cloud.define('addFriend', function(request, response) {
+
+    console.log('加好友');
+    addFriend(request, response);
+
 });
 
-var uploadHeadView = function(base64, response)
+var addFriend = function(request, response)
 {
 
 }
+
 
 //云通讯
 var crypto = require('crypto');
