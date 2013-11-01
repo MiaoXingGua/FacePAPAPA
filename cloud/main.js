@@ -118,7 +118,7 @@ var uploadHeadView = function(request, response)
         }).then(function(headViewFile){
 
                 console.log('更新头像3');
-             response.success(headViewFile.id);
+             response.success(headViewFile.get('url'));
 
          }, function(error) {
 
