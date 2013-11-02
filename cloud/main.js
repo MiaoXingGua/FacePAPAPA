@@ -119,9 +119,9 @@ var uploadHeadView = function(request, response)
             var userPhoto = new UserPhoto();
             userPhoto.set('image',headViewFile);
 
-//            return userPhoto.save();
+            return userPhoto.save();
 
-//        }).then(function(userPhoto) {
+        }).then(function(userPhoto) {
 
             console.log('更新头像3');
 
