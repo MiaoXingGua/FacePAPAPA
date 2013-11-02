@@ -56,27 +56,27 @@ var register = function(request,response,count,error)
 //        var userRelation = new UserRelation();
 //        userRelation.save().then(function(userRelation){
 
-                var user = new AV.User();
-                user.set("username",username);
-                user.set("password", password);
-                user.set("email", email);
+        var user = new AV.User();
+        user.set("username",username);
+        user.set("password", password);
+        user.set("email", email);
 
-                var userRelation = new UserRelation();
+        var userRelation = new UserRelation();
 
-                user.set('userRelation', userRelation);
+        user.set('userRelation', userRelation);
 
-                user.signUp(null, {
-                    success: function(user) {
-                        console.log('注册3');
-                        //注册云通信
-                        cloopenSignUp(request, response, user);
-                    },
-                    error: function(user, error) {
-                        console.log('注册4');
+        user.signUp(null, {
+            success: function(user) {
+                console.log('注册3');
+                //注册云通信
+                cloopenSignUp(request, response, user);
+            },
+            error: function(user, error) {
+                console.log('注册4');
 //                        console.log(error);
-                        register(response,--count,error);
-                    }
-                });
+                register(response,--count,error);
+            }
+        });
 //        });
 
     }
