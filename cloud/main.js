@@ -98,7 +98,7 @@ var register = function(request,response,count,error)
 //更新头像
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
-    console.log('更新头像2');
+    console.log('更新头像0');
     uploadHeadView(request, response);
 
 });
@@ -126,21 +126,27 @@ var uploadHeadView = function(request, response)
             console.log('更新头像3');
 
 //            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-                console.dir(userPhoto);
+//            console.dir(userPhoto);
             user.set('userPhoto',userPhoto);
-            user.relation('album').add(userPhoto);
+//            user.relation('album').add(userPhoto);
 //            user.relation('album').add(userPhoto);
 
             return user.save();
 
-        }).then(function(user){
+        }).then(function(userPhoto) {
 
                 console.log('更新头像4');
+            user.relation('album').add(userPhoto);
+            return user.save();
+
+        }).then(function(user){
+
+                console.log('更新头像5');
              response.success('success');
 
          }, function(error) {
 
-                console.log('更新头像5');
+                console.log('更新头像6');
              response.error(error);
          });
     }
