@@ -64,7 +64,7 @@ var register = function(request,response,count,error)
         var userRelation = new UserRelation();
 
         user.set('userRelation', userRelation);
-
+        console.log('注册2');
         user.signUp(null, {
             success: function(user) {
                 console.log('注册3');
@@ -74,7 +74,7 @@ var register = function(request,response,count,error)
             error: function(user, error) {
                 console.log('注册4');
 //                        console.log(error);
-                register(response,--count,error);
+//                register(response,--count,error);
             }
         });
 //        });
