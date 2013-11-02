@@ -133,11 +133,10 @@ var uploadHeadView = function(request, response)
             user.set('userPhoto',userPhoto);
 
 //            user.relation('album').add(userPhoto);
-//            user.relation('album').add(userPhoto);
 
             return user.save();
 
-        }).then(function(userPhoto) {
+        }).then(function() {
 
 //            console.log('更新头像4');
 //            user.relation('album').add(userPhoto);
@@ -162,221 +161,221 @@ var uploadHeadView = function(request, response)
 }
 
 
-//AV.Cloud.define('addFriend', function(request, response) {
-//
-//    console.log('加好友');
-//    addFriend(request, response);
+AV.Cloud.define('addFriend', function(request, response) {
+
+    console.log('加好友');
+    addFriend(request, response);
+
+});
+
+var addFriend = function(request, response)
+{
+
+    var user = request.user;
+    var friend = request.params.friend;
+
+    if (user && friend)
+    {
+        // 允许用户使用应用
+
+        //我的关系
+        var userRelation = user.get('userRelation');
+        //对方的关系
+        var friendRelation = friend.get('userRelation');
+
+        //我的关注列表
+        var userFriend = userRelation.relation('friend');
+        //对方的粉丝列表
+        var friendFollow = friendRelation.relation('follow');
+
+        userFriend.query().get(friend.id,  {
+
+        success: function(temFriend) {
+
+            if (temFriend)
+            {
+                response.error('好友已经存在');
+            }
+            else
+            {
+//                var friendId = AV.Object.createWithoutData("_User", friend.id);
+                userFriend.add(friend);
+                userRelation.save().then(function(){
+
+                    friendFollow.add(user);
+                    friendRelation.save();
+
+                },function(response,error){
+
+
+
+                });
+            }
+        },
+        error: function(object, error) {
+
+        }
+
+    });
+}
+}
+
+
+//云通讯
+var crypto = require('crypto');
+var moment = require('moment');
+var Buffer = require('buffer').Buffer;
+
+function md5 (text)
+{
+
+    return crypto.createHash('md5').update(text).digest('hex');
+};
+
+function base64 (text)
+{
+    return new Buffer(text).toString('base64');
+}
+
+var parseString = require('xml2js').parseString;
+var parse = require('xml2js').Parser();
+
+//AV.Cloud.define('cloopen', function(request, response)
+//{
+//    var username = newGuid();
+//    console.log('cloopen');
+//    cloopenSignUp(request,response,username);
 //});
+
+//注册云通讯
+var cloopenSignUp = function(request, response, user)
+{
+    console.log('注册云通讯');
+//    console.log('注册云通讯' +user.id);
+
+    var timeStr = moment().format('YYYYMMDDHHmmss');
+//    console.log('timestr:' + timeStr);
+
+    var authorizationStr = 'aaf98f894032b237014047963bb9009d'+':'+timeStr;
+//    console.log('authorizationStr:' + authorizationStr);
+
+    var authorization64 = base64(authorizationStr);
+//    console.log('authorization64:' + authorization64);
+
+    var sigstr = 'aaf98f894032b237014047963bb9009d'+'bbc381b9a024443da462307cec93ce0b'+timeStr;
+//    console.log('sigstr:' + sigstr);
+
+    var sig = md5(sigstr);
+//    console.log('sig:' + sig    );
+
+    var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + user.get('username') + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
+//    console.log('body:' + bodyxml);
+
+// console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
+// response.success('body:'+bodyxml);
+// response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
+
+    AV.Cloud.httpRequest({
+        method: 'POST',
+        url: 'https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase(),
+        headers: {
+            'Content-Type': 'application/xml;charset=utf-8',
+            'Accept': 'application/xml',
+            'Authorization': authorization64
+        },
+        body: bodyxml,
+        success:function(httpResponse) {
+
+//            console.log(httpResponse.text);
+//            console.log(username);
+
+//            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
+//            console.log(xml);
+
+//            console.log('username0=' +currentUser.get('username'));
+//            console.log('注册云通讯1' +user.id);
+            parseString(httpResponse.text, function (error, result) {
+//                console.log('username1=' + currentUser.get('username'));
+                if (result)
+                {
+//                    console.log( '类型' +typeof (result) );
+//                    console.log('注册云通讯2' +user.id);
+
+                    cloopen2avos(request, response, user, result);
+                }
+                else
+                {
+//                    console.error('Request failed with response code ' + httpResponse.text);
+                    response.error('Request failed with response code ' + error);
+                }
+            });
+
+        },
+        error:function(httpResponse) {
+
+            console.error('Request failed with response code ' + httpResponse.text);
+            response.error('Request failed with response code ' + httpResponse.status);
+        }
+    });
+}
+
+var cloopen2avos = function(request, response, user, xmppInfo)
+{
+//    console.log('username2=' + currentUser.get('username'));
+//    console.log('ssss=' + user.id);
+
+    var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
+    var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
+    var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
+    var voipPwd = xmppInfo.Response.SubAccount[0].voipPwd[0];
+
+    if (subAccountSid && subToken && voipAccount && voipPwd)
+    {
+//        var userInfo = new UserInfo();
+
+        var userId = AV.Object.createWithoutData("_User", user.id);
+        var userInfo = user.get('userInfo');
+//        console.log('asdads='+userInfo.id);
+        userInfo.set("user", userId);
+        userInfo.set("subAccountSid", subAccountSid);
+        userInfo.set("subToken", subToken);
+        userInfo.set("voipAccount", voipAccount);
+        userInfo.set("voipPwd", voipPwd);
+
+        userInfo.save().then(function(userInfo) {
+
+//            console.log('xxxxxxx='+userInfo.id);
+//            var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
+//            user.set("userInfo",userInfoId);
+//            return user.save();
 //
-//var addFriend = function(request, response)
-//{
-//
-//    var user = request.user;
-//    var friend = request.params.friend;
-//
-//    if (user && friend)
-//    {
-//        // 允许用户使用应用
-//
-//        //我的关系
-//        var userRelation = user.get('userRelation');
-//        //对方的关系
-//        var friendRelation = friend.get('userRelation');
-//
-//        //我的关注列表
-//        var userFriend = userRelation.relation('friend');
-//        //对方的粉丝列表
-//        var friendFollow = friendRelation.relation('follow');
-//
-//        userFriend.query().get(friend.id,  {
-//
-//        success: function(temFriend) {
-//
-//            if (temFriend)
-//            {
-//                response.error('好友已经存在');
-//            }
-//            else
-//            {
-////                var friendId = AV.Object.createWithoutData("_User", friend.id);
-//                userFriend.add(friend);
-//                userRelation.save().then(function(){
-//
-//                    friendFollow.add(user);
-//                    friendRelation.save();
-//
-//                },function(response,error){
-//
-//
-//
-//                });
-//            }
-//        },
-//        error: function(object, error) {
-//
-//        }
-//
-//    });
-//
-//
-//}
-//
-//
-////云通讯
-//var crypto = require('crypto');
-//var moment = require('moment');
-//var Buffer = require('buffer').Buffer;
-//
-//function md5 (text)
-//{
-//
-//    return crypto.createHash('md5').update(text).digest('hex');
-//};
-//
-//function base64 (text)
-//{
-//    return new Buffer(text).toString('base64');
-//}
-//
-//var parseString = require('xml2js').parseString;
-//var parse = require('xml2js').Parser();
-//
-////AV.Cloud.define('cloopen', function(request, response)
-////{
-////    var username = newGuid();
-////    console.log('cloopen');
-////    cloopenSignUp(request,response,username);
-////});
-//
-////注册云通讯
-//var cloopenSignUp = function(request, response, user)
-//{
-//    console.log('注册云通讯');
-////    console.log('注册云通讯' +user.id);
-//
-//    var timeStr = moment().format('YYYYMMDDHHmmss');
-////    console.log('timestr:' + timeStr);
-//
-//    var authorizationStr = 'aaf98f894032b237014047963bb9009d'+':'+timeStr;
-////    console.log('authorizationStr:' + authorizationStr);
-//
-//    var authorization64 = base64(authorizationStr);
-////    console.log('authorization64:' + authorization64);
-//
-//    var sigstr = 'aaf98f894032b237014047963bb9009d'+'bbc381b9a024443da462307cec93ce0b'+timeStr;
-////    console.log('sigstr:' + sigstr);
-//
-//    var sig = md5(sigstr);
-////    console.log('sig:' + sig    );
-//
-//    var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + user.get('username') + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
-////    console.log('body:' + bodyxml);
-//
-//// console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
-//// response.success('body:'+bodyxml);
-//// response.success('https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase()),
-//
-//    AV.Cloud.httpRequest({
-//        method: 'POST',
-//        url: 'https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase(),
-//        headers: {
-//            'Content-Type': 'application/xml;charset=utf-8',
-//            'Accept': 'application/xml',
-//            'Authorization': authorization64
-//        },
-//        body: bodyxml,
-//        success:function(httpResponse) {
-//
-////            console.log(httpResponse.text);
-////            console.log(username);
-//
-////            var xml = '<data>'+httpResponse.text+'<guid>'+username+'</guid>'+'</data>';
-////            console.log(xml);
-//
-////            console.log('username0=' +currentUser.get('username'));
-////            console.log('注册云通讯1' +user.id);
-//            parseString(httpResponse.text, function (error, result) {
-////                console.log('username1=' + currentUser.get('username'));
-//                if (result)
-//                {
-////                    console.log( '类型' +typeof (result) );
-////                    console.log('注册云通讯2' +user.id);
-//
-//                    cloopen2avos(request, response, user, result);
-//                }
-//                else
-//                {
-////                    console.error('Request failed with response code ' + httpResponse.text);
-//                    response.error('Request failed with response code ' + error);
-//                }
-//            });
-//
-//        },
-//        error:function(httpResponse) {
-//
-//            console.error('Request failed with response code ' + httpResponse.text);
-//            response.error('Request failed with response code ' + httpResponse.status);
-//        }
-//    });
-//}
-//
-//var cloopen2avos = function(request, response, user, xmppInfo)
-//{
-////    console.log('username2=' + currentUser.get('username'));
-////    console.log('ssss=' + user.id);
-//
-//    var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
-//    var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
-//    var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
-//    var voipPwd = xmppInfo.Response.SubAccount[0].voipPwd[0];
-//
-//    if (subAccountSid && subToken && voipAccount && voipPwd)
-//    {
-////        var userInfo = new UserInfo();
-//
-//        var userId = AV.Object.createWithoutData("_User", user.id);
-//        var userInfo = user.get('userInfo');
-////        console.log('asdads='+userInfo.id);
-//        userInfo.set("user", userId);
-//        userInfo.set("subAccountSid", subAccountSid);
-//        userInfo.set("subToken", subToken);
-//        userInfo.set("voipAccount", voipAccount);
-//        userInfo.set("voipPwd", voipPwd);
-//
-//        userInfo.save().then(function(userInfo) {
-//
-////            console.log('xxxxxxx='+userInfo.id);
-////            var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
-////            user.set("userInfo",userInfoId);
-////            return user.save();
-////
-////             }).then(function(user) {
-//
-////                console.log('zzz='+user.id);
-////                var dict = new Dictionary();
-////                dict.Add('guid',user.get('username'));
-////                dict.Add('subAccountSid',subAccountSid);
-////                dict.Add('subToken',subToken);
-////                dict.Add('voipAccount',voipAccount);
-////                dict.Add('voipPwd',voipPwd);
-//
-//                var dict = {'guid':user.get('username'),'password':password,'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
-//
-////                console.dir(dict);
-////                console.log('dict2='+dict.toString());
-//
-//                response.success(dict);
-//
-//            }, function(response,error) {
-//
-////                console.error(error);
-//                response.error(error);
-//
-//            });
-//    }
-//    else
-//    {
-//        console.error('Request failed with response code ' + xmppInfo);
-//        response.error('Request failed with response code ' + xmppInfo);
-//    }
-//}
+//             }).then(function(user) {
+
+//                console.log('zzz='+user.id);
+//                var dict = new Dictionary();
+//                dict.Add('guid',user.get('username'));
+//                dict.Add('subAccountSid',subAccountSid);
+//                dict.Add('subToken',subToken);
+//                dict.Add('voipAccount',voipAccount);
+//                dict.Add('voipPwd',voipPwd);
+
+                var dict = {'guid':user.get('username'),'password':password,'subAccountSid':subAccountSid,'subToken':subToken,'voipAccount':voipAccount,'voipPwd':voipPwd};
+
+//                console.dir(dict);
+//                console.log('dict2='+dict.toString());
+
+                response.success(dict);
+
+            }, function(response,error) {
+
+//                console.error(error);
+                response.error(error);
+
+            });
+    }
+    else
+    {
+        console.error('Request failed with response code ' + xmppInfo);
+        response.error('Request failed with response code ' + xmppInfo);
+    }
+}
