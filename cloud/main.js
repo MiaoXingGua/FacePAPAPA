@@ -112,20 +112,22 @@ var uploadHeadView = function(request, response)
         headViewFile.save().then(function(headViewFile) {
 
             console.log('更新头像2');
-            user.headView = headViewFile;
 
-//            var headViewFileId = AV.Object.createWithoutData("_File", headViewFile.id);
             var userPhoto = new UserPhoto();
             userPhoto.set('image',headViewFile);
 
-//            user.addUnique('album',headViewFileId);
-            user.relation('album').add(userPhoto);
+            return userPhoto.save();
+
+        }).then(function(userPhoto) {
 
             console.log('更新头像3');
+            user.headView = userPhoto;
+
+            user.relation('album').add(userPhoto);
 
             return user.save();
 
-        }).then(function(headViewFile){
+        }).then(function(user){
 
                 console.log('更新头像4');
              response.success('success');
