@@ -192,25 +192,25 @@ var addFriend = function(request, response)
 
         success: function(temFriend) {
 
-            if (temFriend)
-            {
-                response.error('好友已经存在');
-            }
-            else
-            {
-//                var friendId = AV.Object.createWithoutData("_User", friend.id);
-                userFriend.add(friend);
-                userRelation.save().then(function(){
-
-                    friendFollow.add(user);
-                    friendRelation.save();
-
-                },function(response,error){
-
-
-
-                });
-            }
+//            if (temFriend)
+//            {
+//                response.error('好友已经存在');
+//            }
+//            else
+//            {
+////                var friendId = AV.Object.createWithoutData("_User", friend.id);
+//                userFriend.add(friend);
+//                userRelation.save().then(function(){
+//
+//                    friendFollow.add(user);
+//                    friendRelation.save();
+//
+//                },function(response,error){
+//
+//
+//
+//                });
+//            }
         },
         error: function(object, error) {
 
