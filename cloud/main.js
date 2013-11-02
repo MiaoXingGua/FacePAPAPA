@@ -63,7 +63,9 @@ var register = function(request,response,count,error)
 
         var userRelation = new UserRelation();
 
-        user.set('userRelation', userRelation);
+//        user.set('userRelation', userRelation);
+        user.set('text', 'text');
+
         console.log('注册2');
         user.signUp(null, {
             success: function(user) {
