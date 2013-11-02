@@ -114,7 +114,7 @@ var uploadHeadView = function(request, response)
             user.headView = headViewFile;
 //            var album = user.get('album');
             var headViewFileId = AV.Object.createWithoutData("_File", headViewFile.id);
-            user.addUnique('album',headViewFileId);
+//            user.addUnique('album',headViewFileId);
 //            user.relation('album').add(headViewFile);
             return user.save();
 
