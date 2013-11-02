@@ -5,6 +5,7 @@
 // 创建AV.Object子类.
 var UserInfo = AV.Object.extend("UserInfo");
 var UserRelation = AV.Object.extend("UserRelation");
+var UserPhoto = AV.Object.extend("UserPhoto");
 var User = AV.User;
 var password = "qweqwe123";
 //var userMasterKey = AV.Cloud.useMasterKey();
@@ -112,10 +113,15 @@ var uploadHeadView = function(request, response)
 
             console.log('更新头像2');
             user.headView = headViewFile;
-//            var album = user.get('album');
-            var headViewFileId = AV.Object.createWithoutData("_File", headViewFile.id);
+
+//            var headViewFileId = AV.Object.createWithoutData("_File", headViewFile.id);
+
+            var userPhoto = new UserPhoto();
+            userPhoto.set('image',headViewFile);
+
 //            user.addUnique('album',headViewFileId);
-//            user.relation('album').add(headViewFile);
+            user.relation('album').add(headViewFile);
+
             return user.save();
 
         }).then(function(headViewFile){
