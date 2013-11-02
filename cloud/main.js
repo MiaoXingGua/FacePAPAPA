@@ -121,9 +121,10 @@ var uploadHeadView = function(request, response)
         }).then(function(userPhoto) {
 
             console.log('更新头像3');
-            user.headView = userPhoto;
+            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+            user.headView = userPhotoId;
 
-            user.relation('album').add(userPhoto);
+            user.relation('album').add(userPhotoId);
 
             return user.save();
 
