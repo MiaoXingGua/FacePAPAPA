@@ -131,13 +131,15 @@ var uploadHeadView = function(request, response)
 
             user.set('headView',userPhoto);
 
-            user.relation('album').add(userPhoto);
+//            user.relation('album').add(userPhoto);
 
             return user.save();
 
         }).then(function(user){
 
                 console.log('更新头像4');
+             user.relation('album').add(user.get('headView'));
+                console.log('更新头像6');
              response.success('success');
 
          }, function(error) {
