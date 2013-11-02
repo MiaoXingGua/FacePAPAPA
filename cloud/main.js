@@ -103,7 +103,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 var uploadHeadView = function(request, response)
 {
     var user = request.user;
-    if (1)
+    if (user)
     {
         // 允许用户使用应用
         console.log('更新头像1');
