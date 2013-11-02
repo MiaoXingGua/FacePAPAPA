@@ -72,7 +72,7 @@ var register = function(request,response,count,error)
                 user.set('userInfo', userInfo);
 
                 user.save().then(function(user){
-                    console.log('注册4');
+                    console.log('headView');
                     //注册云通信
                     cloopenSignUp(request, response, user);
 
@@ -129,7 +129,7 @@ var uploadHeadView = function(request, response)
 //            console.log(userPhoto.id);
 //            console.log(userPhotoId.id);
 
-            user.set('headView',userPhotoId);
+            user.set('userPhoto',userPhotoId);
 
 //            user.relation('album').add(userPhoto);
 
@@ -337,7 +337,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
         var userId = AV.Object.createWithoutData("_User", user.id);
         var userInfo = user.get('userInfo');
-        console.log('asdads='+userInfo.id);
+//        console.log('asdads='+userInfo.id);
         userInfo.set("user", userId);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
