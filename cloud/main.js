@@ -106,6 +106,8 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 var uploadHeadView = function(request, response)
 {
     var user = request.user;
+    console.dir(user);
+
     if (user)
     {
         // 允许用户使用应用
@@ -127,7 +129,9 @@ var uploadHeadView = function(request, response)
 
 //            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
 //            console.dir(userPhoto);
+
             user.set('userPhoto',userPhoto);
+
 //            user.relation('album').add(userPhoto);
 //            user.relation('album').add(userPhoto);
 
@@ -135,11 +139,11 @@ var uploadHeadView = function(request, response)
 
         }).then(function(userPhoto) {
 
-                console.log('更新头像4');
-            user.relation('album').add(userPhoto);
-            return user.save();
-
-        }).then(function(user){
+//            console.log('更新头像4');
+//            user.relation('album').add(userPhoto);
+//            return user.save();
+//
+//        }).then(function(user){
 
                 console.log('更新头像5');
              response.success('success');
@@ -168,60 +172,56 @@ var addFriend = function(request, response)
 {
 
     var user = request.user;
-    if (user)
+    var friend = request.params.friend;
+
+    if (user && friend)
     {
         // 允许用户使用应用
-        var friend = request.params.friend;
 
-        var userRelation = user.userRelation;
+        //我的关系
+        var userRelation = user.get('userRelation');
+        //对方的关系
+        var friendRelation = friend.get('userRelation');
 
-        var relation = user.relation('userRelation');
+        //我的关注列表
+        var userFriend = userRelation.relation('friend');
+        //对方的粉丝列表
+        var friendFollow = friendRelation.relation('follow');
 
-        relation.query().get(friend.id,  {
+        userFriend.query().get(friend.id,  {
 
-        success: function(friend) {
+        success: function(temFriend) {
 
-            if (friend)
+            if (temFriend)
             {
                 response.error('好友已经存在');
             }
             else
             {
-                var friendId = AV.Object.createWithoutData("_User", friend.id);
-                relation.add(friendId);
-                relation.save();
+//                var friendId = AV.Object.createWithoutData("_User", friend.id);
+                userFriend.add(friend);
+                userRelation.save().then(function(){
+
+                    friendFollow.add(user);
+                    friendRelation.save();
+
+                },function(response,error){
+
+
+
+                });
             }
         },
         error: function(object, error) {
 
         }
+
+
+
+
     });
 
 
-        headViewFile.save().then(function() {
-
-            console.log('更新头像2');
-
-
-
-            user.headView = headViewFile;
-            user.relation('album').add(headViewFile);
-            return user.save();
-
-        }).then(function(){
-
-                response.success('success');
-
-            }, function(error) {
-
-                response.error(error);
-            });
-    }
-    else
-    {
-        //缓存用户对象为空时， 可打开用户注册界面…
-        response.error('请先登录');
-    }
 }
 
 
