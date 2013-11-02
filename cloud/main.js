@@ -103,7 +103,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 var uploadHeadView = function(request, response)
 {
     var user = request.user;
-    if (user)
+    if (1)
     {
         // 允许用户使用应用
         console.log('更新头像1');
@@ -121,7 +121,11 @@ var uploadHeadView = function(request, response)
         }).then(function(userPhoto) {
 
             console.log('更新头像3');
+
             var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+
+            console.log(userPhoto.id);
+            console.log(userPhotoId.id);
 
             user.set('headView',userPhotoId);
 
