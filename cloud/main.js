@@ -125,12 +125,11 @@ var uploadHeadView = function(request, response)
 
             console.log('更新头像3');
 
-            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-//            console.log(userPhoto.id);
-//            console.log(userPhotoId.id);
+//            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
 
-            user.set('userPhoto',userPhotoId);
 
+            user.set('userPhoto',userPhoto);
+            user.relation('album').add(userPhoto);
 //            user.relation('album').add(userPhoto);
 
             return user.save();
@@ -138,8 +137,6 @@ var uploadHeadView = function(request, response)
         }).then(function(user){
 
                 console.log('更新头像4');
-             user.relation('album').add(user.get('headView'));
-                console.log('更新头像6');
              response.success('success');
 
          }, function(error) {
