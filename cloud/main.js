@@ -53,17 +53,17 @@ var register = function(request,response,count,error)
     if (username && password && email)
     {
         //创建用户关系
-        var userRelation = new UserRelation();
-        userRelation.save().then(function(userRelation){
+//        var userRelation = new UserRelation();
+//        userRelation.save().then(function(userRelation){
 
                 var user = new AV.User();
                 user.set("username",username);
                 user.set("password", password);
                 user.set("email", email);
 
-                var userPhotoId = AV.Object.createWithoutData("UserRelation", userRelation.id);
+                var userRelation = new UserRelation();
 
-                user.set('userRelation', userPhotoId);
+                user.set('userRelation', userRelation);
 
                 user.signUp(null, {
                     success: function(user) {
@@ -77,7 +77,7 @@ var register = function(request,response,count,error)
                         register(response,--count,error);
                     }
                 });
-        });
+//        });
 
     }
 }
