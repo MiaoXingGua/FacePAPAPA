@@ -51,43 +51,31 @@ var register = function(request,response,count,error)
 
     if (username && password && email)
     {
-        var user = new AV.User();
-        user.set("username",username);
-        user.set("password", password);
-        user.set("email", email);
+        //创建用户关系
+        var userRelation = new UserRelation();
+        userRelation.save().then(function(){
 
-        user.signUp(null, {
-            success: function(user) {
+                var user = new AV.User();
+                user.set("username",username);
+                user.set("password", password);
+                user.set("email", email);
 
-                //创建用户关系
-                var userRelation = new UserRelation();
-                userRelation.save().then(function(userRelation) {
+                user.set('userRelation', userRelation);
 
-                    console.log('注册2'+userRelation.id+user.id);
-                    var userRelationId = AV.Object.createWithoutData("UserRelation", userRelation.id);
-                    user.set("userRelation",userRelationId);
-                    return user.save();
-
-                }).then(function(user) {
-
+                user.signUp(null, {
+                    success: function(user) {
                         console.log('注册3');
                         //注册云通信
                         cloopenSignUp(request, response, user);
-
-                }, function(response,error) {
-
+                    },
+                    error: function(user, error) {
                         console.log('注册4');
 //                        console.log(error);
-                        response.error(error);
-
+                        register(response,--count,error);
+                    }
                 });
-//                cloopenSignUp(request, response, user);
-            },
-            error: function(user, error) {
-
-                register(response,--count,error);
-            }
         });
+
     }
 }
 
