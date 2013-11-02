@@ -335,6 +335,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 //        var userInfo = new UserInfo();
 //        var userId = AV.Object.createWithoutData("_User", user.id);
         var userInfo = user.get('userInfo');
+        console.log('asdads='+userInfo.id);
         userInfo.set("user", userId);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
