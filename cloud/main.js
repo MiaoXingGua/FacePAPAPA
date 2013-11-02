@@ -109,29 +109,30 @@ var uploadHeadView = function(request, response)
         console.log('更新头像1');
         var base64 = request.params.headView;
         var headViewFile = new AV.File("headView.png", { base64: base64 });
-        headViewFile.save().then(function() {
+        headViewFile.save().then(function(headViewFile) {
 
             console.log('更新头像2');
             user.headView = headViewFile;
 
 //            var headViewFileId = AV.Object.createWithoutData("_File", headViewFile.id);
-
             var userPhoto = new UserPhoto();
             userPhoto.set('image',headViewFile);
 
 //            user.addUnique('album',headViewFileId);
-            user.relation('album').add(headViewFile);
+            user.relation('album').add(userPhoto);
+
+            console.log('更新头像3');
 
             return user.save();
 
         }).then(function(headViewFile){
 
-                console.log('更新头像3');
+                console.log('更新头像4');
              response.success('success');
 
          }, function(error) {
 
-                console.log('更新头像4');
+                console.log('更新头像5');
              response.error(error);
          });
     }
