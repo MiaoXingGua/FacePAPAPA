@@ -60,28 +60,28 @@ var register = function(request,response,count,error)
             success: function(user) {
 
                 //创建用户关系
-//                var userRelation = new UserRelation();
-//                userRelation.save().then(function(userRelation) {
-//
-//                    console.log('注册2'+userRelation.id+user.id);
-//                    var userRelationId = AV.Object.createWithoutData("UserRelation", userRelation.id);
-//                    user.set("userRelation",userRelationId);
-//                    return user.save();
-//
-//                }).then(function(user) {
-//
-//                        console.log('注册3');
-//                        //注册云通信
-//                        cloopenSignUp(request, response, user);
-//
-//                }, function(response,error) {
-//
-//                        console.log('注册4');
-////                        console.log(error);
-//                        response.error(error);
-//
-//                });
-                cloopenSignUp(request, response, user);
+                var userRelation = new UserRelation();
+                userRelation.save().then(function(userRelation) {
+
+                    console.log('注册2'+userRelation.id+user.id);
+                    var userRelationId = AV.Object.createWithoutData("UserRelation", userRelation.id);
+                    user.set("userRelation",userRelationId);
+                    return user.save();
+
+                }).then(function(user) {
+
+                        console.log('注册3');
+                        //注册云通信
+                        cloopenSignUp(request, response, user);
+
+                }, function(response,error) {
+
+                        console.log('注册4');
+//                        console.log(error);
+                        response.error(error);
+
+                });
+//                cloopenSignUp(request, response, user);
             },
             error: function(user, error) {
 
