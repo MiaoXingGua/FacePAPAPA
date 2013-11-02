@@ -61,16 +61,16 @@ var register = function(request,response,count,error)
         user.set("password", password);
         user.set("email", email);
 
-//        user.set('userRelation', userRelation);
-        user.set('text', 'text');
-
-        console.log('注册2');
         user.signUp(null, {
             success: function(user) {
                 console.log('注册3');
 
                 var userRelation = new UserRelation();
                 user.set('userRelation', userRelation);
+
+                var userInfo = new UserInfo();
+                user.set('userInfo', userInfo);
+
                 user.save().then(function(user){
                     console.log('注册4');
                     //注册云通信
@@ -251,7 +251,7 @@ var parse = require('xml2js').Parser();
 //注册云通讯
 var cloopenSignUp = function(request, response, user)
 {
-//    console.log('注册云通讯');
+    console.log('注册云通讯');
 //    console.log('注册云通讯' +user.id);
 
     var timeStr = moment().format('YYYYMMDDHHmmss');
@@ -331,8 +331,9 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 
     if (subAccountSid && subToken && voipAccount && voipPwd)
     {
-        var userInfo = new UserInfo();
-        var userId = AV.Object.createWithoutData("_User", user.id);
+//        var userInfo = new UserInfo();
+//        var userId = AV.Object.createWithoutData("_User", user.id);
+        var userInfo = user.get('userInfo');
         userInfo.set("user", userId);
         userInfo.set("subAccountSid", subAccountSid);
         userInfo.set("subToken", subToken);
@@ -341,11 +342,11 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.save().then(function(userInfo) {
 
 //            console.log('xxxxxxx='+userInfo.id);
-            var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
-            user.set("userInfo",userInfoId);
-            return user.save();
-
-             }).then(function(user) {
+//            var userInfoId = AV.Object.createWithoutData("UserInfo", userInfo.id);
+//            user.set("userInfo",userInfoId);
+//            return user.save();
+//
+//             }).then(function(user) {
 
 //                console.log('zzz='+user.id);
 
