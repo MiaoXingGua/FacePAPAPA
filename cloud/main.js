@@ -61,8 +61,6 @@ var register = function(request,response,count,error)
         user.set("password", password);
         user.set("email", email);
 
-        var userRelation = new UserRelation();
-
 //        user.set('userRelation', userRelation);
         user.set('text', 'text');
 
@@ -70,11 +68,23 @@ var register = function(request,response,count,error)
         user.signUp(null, {
             success: function(user) {
                 console.log('注册3');
-                //注册云通信
-                cloopenSignUp(request, response, user);
+
+                var userRelation = new UserRelation();
+                user.set('userRelation', userRelation);
+                user.save().then(function(user){
+                    console.log('注册4');
+                    //注册云通信
+                    cloopenSignUp(request, response, user);
+
+                },function(error) {
+
+                    console.log('注册6');
+                    response.error(error);
+                });
+
             },
             error: function(user, error) {
-                console.log('注册4');
+                console.log('注册5');
 //                        console.log(error);
 //                register(response,--count,error);
             }
