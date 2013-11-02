@@ -119,20 +119,19 @@ var uploadHeadView = function(request, response)
             var userPhoto = new UserPhoto();
             userPhoto.set('image',headViewFile);
 
-            return userPhoto.save();
+//            return userPhoto.save();
 
-        }).then(function(userPhoto) {
+//        }).then(function(userPhoto) {
 
             console.log('更新头像3');
 
-            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+//            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+//            console.log(userPhoto.id);
+//            console.log(userPhotoId.id);
 
-            console.log(userPhoto.id);
-            console.log(userPhotoId.id);
+            user.set('headView',userPhoto);
 
-            user.set('headView',userPhotoId);
-
-            user.relation('album').add(userPhotoId);
+            user.relation('album').add(userPhoto);
 
             return user.save();
 
@@ -349,7 +348,6 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 //             }).then(function(user) {
 
 //                console.log('zzz='+user.id);
-
 //                var dict = new Dictionary();
 //                dict.Add('guid',user.get('username'));
 //                dict.Add('subAccountSid',subAccountSid);
