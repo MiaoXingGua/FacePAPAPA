@@ -42,6 +42,7 @@ var register = function(request,response,count,error)
     if (count<=0) response.error(error);
 
     var username = request.params.guid;
+
     if (!username)
     {
         username = newGuid();
@@ -53,14 +54,16 @@ var register = function(request,response,count,error)
     {
         //创建用户关系
         var userRelation = new UserRelation();
-        userRelation.save().then(function(){
+        userRelation.save().then(function(userRelation){
 
                 var user = new AV.User();
                 user.set("username",username);
                 user.set("password", password);
                 user.set("email", email);
 
-                user.set('userRelation', userRelation);
+                var userPhotoId = AV.Object.createWithoutData("UserRelation", userRelation.id);
+
+                user.set('userRelation', userPhotoId);
 
                 user.signUp(null, {
                     success: function(user) {
