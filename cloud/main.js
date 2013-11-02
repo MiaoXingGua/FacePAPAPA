@@ -325,7 +325,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
 {
 //    console.log('username2=' + currentUser.get('username'));
 //    console.log('ssss=' + user.id);
-    console.log('asdads=');
+
     var subAccountSid = xmppInfo.Response.SubAccount[0].subAccountSid[0];
     var subToken = xmppInfo.Response.SubAccount[0].subToken[0];
     var voipAccount = xmppInfo.Response.SubAccount[0].voipAccount[0];
@@ -334,8 +334,8 @@ var cloopen2avos = function(request, response, user, xmppInfo)
     if (subAccountSid && subToken && voipAccount && voipPwd)
     {
 //        var userInfo = new UserInfo();
-        console.log('asderhrejteyjetyjtj=');
-//        var userId = AV.Object.createWithoutData("_User", user.id);
+
+        var userId = AV.Object.createWithoutData("_User", user.id);
         var userInfo = user.get('userInfo');
         console.log('asdads='+userInfo.id);
         userInfo.set("user", userId);
@@ -343,6 +343,7 @@ var cloopen2avos = function(request, response, user, xmppInfo)
         userInfo.set("subToken", subToken);
         userInfo.set("voipAccount", voipAccount);
         userInfo.set("voipPwd", voipPwd);
+
         userInfo.save().then(function(userInfo) {
 
 //            console.log('xxxxxxx='+userInfo.id);
