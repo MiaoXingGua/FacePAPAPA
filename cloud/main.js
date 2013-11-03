@@ -107,9 +107,10 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
     userPhoto.save().then(function(userPhoto) {
 
         var album = user.relation('album');
-        console.dir(album.parent.get('album'));
+
         album.add(userPhoto);
         console.log('album');
+        console.dir(album);
         console.dir(album.parent.get('album'));
 
 
