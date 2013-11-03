@@ -120,18 +120,15 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 //        user.relation('album').add(userPhotoId);
 //        user.set('userPhoto',userPhotoId);
 
-        user.save().then(function(user){
-            console.log('111');
-            //注册云通信
-//            cloopenSignUp(request, response, user);
+        return user.save();
 
-        },function(error) {
+    }).then(function(user) {
+            console.dir(user);
+    },function(error){
 
-            console.log('222');
-            response.error(error);
+            console.dir(error);
+
         });
-
-    },function(error){});
 
 });
 
