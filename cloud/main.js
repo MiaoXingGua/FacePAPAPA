@@ -158,7 +158,7 @@ var uploadHeadView = function(request, response)
 
             console.dir(userPhotoId);
 
-            user.set('userPhoto',userPhotoId);
+//            user.set('userPhoto',userPhotoId);
 
             user.relation('album').add(userPhotoId);
 
