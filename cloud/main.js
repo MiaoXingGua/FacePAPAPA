@@ -119,6 +119,7 @@ var uploadHeadView = function(request, response)
 
             console.log('更新头像2');
 
+            var UserPhoto = AV.Object.extend("UserPhoto");
             var userPhoto = new UserPhoto();
             userPhoto.set('image',headViewFile);
 
@@ -129,7 +130,7 @@ var uploadHeadView = function(request, response)
             console.log('更新头像3');
 
             var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-            console.log('userPhoto.id ='+userPhoto.id);
+            console.log('userPhoto.id ='+userPhotoId);
             user.set('userPhoto',userPhotoId);
 
 //            user.relation('userPhotos').add(userPhoto);
