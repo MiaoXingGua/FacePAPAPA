@@ -106,29 +106,31 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
     var userPhoto = new UserPhoto();
     userPhoto.save().then(function(userPhoto) {
 
-        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-        console.dir(userPhotoId);
+//        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+//        console.dir(userPhotoId);
 
-        userPhotoId = userPhoto._toPointer();
-        console.dir(userPhoto);
-        console.dir(userPhotoId);
+//        userPhotoId = userPhoto._toPointer();
+//        console.dir(userPhoto);
+//        console.dir(userPhotoId);
 
 //        userPhotoId.id = userPhoto.id;
 //        userPhotoId._hasData=false;
-
-        user.relation('album').add(userPhoto);
+        var album = user.relation('album');
+        album.add(userPhoto);
+        console.log('album');
+        console.dir(album);
+//        user.relation('album').add(userPhoto);
 //        user.relation('album').add(userPhotoId);
 //        user.set('userPhoto',userPhotoId);
 
-        return user.save();
-
-    }).then(function(user) {
-            console.dir(user);
-    },function(error){
-
-            console.dir(error);
-
-        });
+        user.save(null, {
+            success: function(user) {
+                response.success('success');
+                    }  ,
+            error: function(user, error) {
+                response.error(error);
+            }
+                });
 
 });
 
