@@ -103,12 +103,12 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 //    uploadHeadView(request, response);
 
 
-        var user = request.user;
-        var userPhoto = new UserPhoto();
-        userPhoto.save().then(function(userPhoto) {
+    var user = request.user;
+    var userPhoto = new UserPhoto();
+    userPhoto.save().then(function(userPhoto) {
 
-            try{
-
+        try{
+            var user = request.user;
             var album = user.relation('album');
 
 
@@ -119,21 +119,19 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
             console.dir(album);
             console.dir(album.parent.get('album'));
 
-            } catch(e) {
-                console.dir(e)
+        } catch(e) {
+            console.dir(e)
+        }
+
+        user.save(null, {
+            success: function(user) {
+                response.success('success');
+            }  ,
+            error: function(user, error) {
+                response.error(error);
             }
-
-            user.save(null, {
-                success: function(user) {
-                    response.success('success');
-                }  ,
-                error: function(user, error) {
-                    response.error(error);
-                }
-            });
         });
-
-
+    });
 
 });
 
