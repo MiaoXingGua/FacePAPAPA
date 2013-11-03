@@ -106,22 +106,12 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
     var userPhoto = new UserPhoto();
     userPhoto.save().then(function(userPhoto) {
 
-//        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-//        console.dir(userPhotoId);
-
-//        userPhotoId = userPhoto._toPointer();
-//        console.dir(userPhoto);
-//        console.dir(userPhotoId);
-
-//        userPhotoId.id = userPhoto.id;
-//        userPhotoId._hasData=false;
         var album = user.relation('album');
+        console.dir(album.parent.get('album'));
         album.add(userPhoto);
         console.log('album');
-        console.dir(album);
-//        user.relation('album').add(userPhoto);
-//        user.relation('album').add(userPhotoId);
-//        user.set('userPhoto',userPhotoId);
+        console.dir(album.parent.get('album'));
+
 
         user.save(null, {
             success: function(user) {
