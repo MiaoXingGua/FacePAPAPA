@@ -109,7 +109,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
         var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
         console.dir(userPhotoId);
 
-        userPhotoId = userPhoto._toPointer();
+//        userPhotoId = userPhoto._toPointer();
         console.dir(userPhoto);
 
 //        userPhotoId.id = userPhoto.id;
