@@ -101,20 +101,27 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像0');
 //    uploadHeadView(request, response);
-    try{
+
 
         var user = request.user;
         var userPhoto = new UserPhoto();
         userPhoto.save().then(function(userPhoto) {
 
+            try{
+
             var album = user.relation('album');
-            console.dir(album)
+
+
+            console.dir(album);
             console.dir(album.parent.get('album'));
             album.add(userPhoto);
             console.log('album');
             console.dir(album);
             console.dir(album.parent.get('album'));
 
+            } catch(e) {
+                console.dir(e)
+            }
 
             user.save(null, {
                 success: function(user) {
@@ -126,9 +133,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
             });
         });
 
-    } catch(e) {
-        console.dir(e)
-    }
+
 
 });
 
