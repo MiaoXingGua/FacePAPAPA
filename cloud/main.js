@@ -131,9 +131,9 @@ var uploadHeadView = function(request, response)
             var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
 //            console.dir(userPhoto);
 
-//            user.set('userPhoto',userPhotoId);
+            user.set('userPhoto',userPhotoId);
 
-            user.relation('userPhotos').add(userPhoto);
+//            user.relation('userPhotos').add(userPhoto);
 
             return user.save();
 
