@@ -171,7 +171,6 @@ AV.Cloud.define('addFriend', function(request, response) {
 
 var addFriend = function(request, response)
 {
-
     var user = request.user;
     var friend = request.params.friend;
 
@@ -200,21 +199,43 @@ var addFriend = function(request, response)
             else
             {
 //                var friendId = AV.Object.createWithoutData("_User", friend.id);
-                userFriend.add(friend);
-                userRelation.save().then(function(){
 
-                    friendFollow.add(user);
-                    friendRelation.save();
+                var count = 2;
+
+                userFriend.add(friend);
+                userRelation.save().then(function(user){
+
+                    if (--count==0)
+                    {
+                        response.success(user);
+                    }
 
                 },function(response,error){
 
+                    friendFollow.remove(user);
+                    friendFollow.save();
+                    response.error('失败');
+                });
 
+                friendFollow.add(user);
+                friendRelation.save().then(function(user){
+
+                    if (--count==0)
+                    {
+                        response.success(user);
+                    }
+
+                },function(response,error){
+
+                    userFriend.remove(user);
+                    userFriend.save();
+                    response.error('失败');
 
                 });
             }
         },
         error: function(object, error) {
-
+            response.error('BUG!!!!!!!!!!');
         }
 
     });
