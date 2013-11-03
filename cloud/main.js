@@ -110,12 +110,14 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
         console.dir(userPhotoId);
 
         userPhotoId = userPhoto._toPointer();
+        console.dir(userPhoto);
         console.dir(userPhotoId);
 
 //        userPhotoId.id = userPhoto.id;
 //        userPhotoId._hasData=false;
 
-        user.relation('album').add(userPhotoId);
+        user.relation('album').add(userPhoto);
+//        user.relation('album').add(userPhotoId);
 //        user.set('userPhoto',userPhotoId);
 
         user.save().then(function(user){
