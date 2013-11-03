@@ -101,7 +101,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像0');
 //    uploadHeadView(request, response);
-
+    var user = request.user;
     var userPhoto = new UserPhoto();
     userPhoto.save().then(function(userPhoto) {
 
