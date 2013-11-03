@@ -131,7 +131,7 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
                 response.error(error);
             }
                 });
-
+    });
 });
 
 var uploadHeadView = function(request, response)
