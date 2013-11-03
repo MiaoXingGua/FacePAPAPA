@@ -118,7 +118,16 @@ AV.Cloud.define('uploadHeadView', function(request, response) {
         user.relation('album').add(userPhotoId);
 //        user.set('userPhoto',userPhotoId);
 
-        user.save();
+        user.save().then(function(user){
+            console.log('111');
+            //注册云通信
+//            cloopenSignUp(request, response, user);
+
+        },function(error) {
+
+            console.log('222');
+            response.error(error);
+        });
 
     },function(error){});
 
