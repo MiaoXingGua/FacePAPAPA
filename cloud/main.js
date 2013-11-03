@@ -100,7 +100,20 @@ var register = function(request,response,count,error)
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像0');
-    uploadHeadView(request, response);
+//    uploadHeadView(request, response);
+
+    var userPhoto = new UserPhoto();
+    userPhoto.save().then(function(userPhoto) {
+
+        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+
+        console.dir(userPhotoId);
+
+        user.set('userPhoto',userPhotoId);
+
+        user.save();
+
+    },function(error){});
 
 });
 
@@ -121,7 +134,7 @@ var uploadHeadView = function(request, response)
 
             var UserPhoto = AV.Object.extend("UserPhoto");
             var userPhoto = new UserPhoto();
-//            userPhoto.set('image',headViewFile);
+            userPhoto.set('image',headViewFile);
 
             return userPhoto.save();
 
