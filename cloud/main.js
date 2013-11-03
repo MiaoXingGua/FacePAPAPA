@@ -100,24 +100,29 @@ var register = function(request,response,count,error)
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像0');
-//    uploadHeadView(request, response);
-    var user = request.user;
-    var userPhoto = new UserPhoto();
-    userPhoto.save().then(function(userPhoto) {
+    uploadHeadView(request, response);
 
+//    var user = request.user;
+//    var userPhoto = new UserPhoto();
+//    userPhoto.save().then(function(userPhoto) {
+//
 //        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-        var userPhotoId = userPhoto._toPointer();
-//        userPhotoId.id = userPhoto.id;
-//        userPhotoId._hasData=false;
-
-
-        console.dir(userPhotoId);
-
-        user.set('userPhoto',userPhotoId);
-
-        user.save();
-
-    },function(error){});
+//        console.dir(userPhotoId);
+//
+//        userPhotoId = userPhoto._toPointer();
+//        console.dir(userPhotoId);
+//
+////        userPhotoId.id = userPhoto.id;
+////        userPhotoId._hasData=false;
+//
+//
+//
+//
+//        user.set('userPhoto',userPhotoId);
+//
+//        user.save();
+//
+//    },function(error){});
 
 });
 
@@ -147,7 +152,7 @@ var uploadHeadView = function(request, response)
             console.log('更新头像3');
 
             var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-
+            userPhotoId = userPhoto._toPointer();
 //            var userPhotoId= new UserPhoto();
 //            userPhotoId.id = userPhoto.id;
 
@@ -155,7 +160,7 @@ var uploadHeadView = function(request, response)
 
             user.set('userPhoto',userPhotoId);
 
-//            user.relation('userPhotos').add(userPhoto);
+            user.relation('userPhotos').add(userPhotoId);
 
             return user.save();
 
