@@ -100,29 +100,27 @@ var register = function(request,response,count,error)
 AV.Cloud.define('uploadHeadView', function(request, response) {
 
     console.log('更新头像0');
-    uploadHeadView(request, response);
+//    uploadHeadView(request, response);
 
-//    var user = request.user;
-//    var userPhoto = new UserPhoto();
-//    userPhoto.save().then(function(userPhoto) {
-//
-//        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
-//        console.dir(userPhotoId);
-//
-//        userPhotoId = userPhoto._toPointer();
-//        console.dir(userPhotoId);
-//
-////        userPhotoId.id = userPhoto.id;
-////        userPhotoId._hasData=false;
-//
-//
-//
-//
+    var user = request.user;
+    var userPhoto = new UserPhoto();
+    userPhoto.save().then(function(userPhoto) {
+
+        var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
+        console.dir(userPhotoId);
+
+        userPhotoId = userPhoto._toPointer();
+        console.dir(userPhotoId);
+
+//        userPhotoId.id = userPhoto.id;
+//        userPhotoId._hasData=false;
+
+        user.relation('album').add(userPhotoId);
 //        user.set('userPhoto',userPhotoId);
-//
-//        user.save();
-//
-//    },function(error){});
+
+        user.save();
+
+    },function(error){});
 
 });
 
