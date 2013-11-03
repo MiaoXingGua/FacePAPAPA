@@ -8,6 +8,7 @@ var UserRelation = AV.Object.extend("UserRelation");
 var UserPhoto = AV.Object.extend("UserPhoto");
 var User = AV.User;
 var password = "qweqwe123";
+
 //var userMasterKey = AV.Cloud.useMasterKey();
 
 AV.Cloud.define("hello", function(request, response) {
@@ -130,9 +131,9 @@ var uploadHeadView = function(request, response)
 //            var userPhotoId = AV.Object.createWithoutData("UserPhoto", userPhoto.id);
 //            console.dir(userPhoto);
 
-            user.set('userPhoto',userPhoto);
+//            user.set('userPhoto',userPhoto);
 
-//            user.relation('album').add(userPhoto);
+            user.relation('album').add(userPhoto);
 
             return user.save();
 
@@ -228,9 +229,8 @@ var Buffer = require('buffer').Buffer;
 
 function md5 (text)
 {
-
     return crypto.createHash('md5').update(text).digest('hex');
-};
+}
 
 function base64 (text)
 {
@@ -245,6 +245,7 @@ var parse = require('xml2js').Parser();
 //    var username = newGuid();
 //    console.log('cloopen');
 //    cloopenSignUp(request,response,username);
+//
 //});
 
 //注册云通讯
@@ -269,6 +270,7 @@ var cloopenSignUp = function(request, response, user)
 //    console.log('sig:' + sig    );
 
     var bodyxml = '<?xml version="1.0" encoding="utf-8"?><SubAccount><appId>aaf98f894032b2370140482ac6dc00a8</appId><friendlyName>' + user.get('username') + '</friendlyName><accountSid>aaf98f894032b237014047963bb9009d</accountSid></SubAccount>';
+
 //    console.log('body:' + bodyxml);
 
 // console.log('url:https://sandboxapp.cloopen.com:8883/2013-03-22/Accounts/aaf98f894032b237014047963bb9009d/SubAccounts?sig='+sig.toUpperCase());
